@@ -59,11 +59,9 @@ struct DetailMangaView: View {
             
             switch tab{
             case .resumen:
-                SummaryView()
+                SummaryView(manga: manga)
             case .personajes:
                 Text("personajes")
-            case .otro:
-                Text("otro")
             }
             Spacer()
         }
@@ -95,7 +93,6 @@ extension DetailMangaView{
 enum Tabs: String, CaseIterable {
     case resumen = "Resumen"
     case personajes = "Personajes"
-    case otro = "Otro"
 }
 
 
