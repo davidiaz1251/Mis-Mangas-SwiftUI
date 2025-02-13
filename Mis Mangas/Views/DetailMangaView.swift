@@ -2,7 +2,7 @@
 //  DetailMangaView.swift
 //  Mis Mangas
 //
-//  Created by David on 26/1/25.
+//  Created by luis david diaz ramirez on 26/1/25.
 //
 
 import SwiftUI
