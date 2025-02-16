@@ -14,12 +14,11 @@ struct Mis_MangasApp: App {
         WindowGroup {
             TabView{
                 ContentView()
-                    .environment(vm)
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
                 
-                Text("Search")
+                SearchMangaView()
                     .tabItem {
                         Label("Search", systemImage: "magnifyingglass")
                     }
@@ -29,7 +28,20 @@ struct Mis_MangasApp: App {
                         Label("Favorite", systemImage: "heart")
                     }
             }
+            .environment(vm)
         }
+    }
+}
+
+struct MangasVMKey: @preconcurrency EnvironmentKey {
+    @MainActor static var defaultValue: MangasVM { MangasVM() }
+}
+
+// Extensión de EnvironmentValues
+extension EnvironmentValues {
+    var mangasVM: MangasVM {
+        get { self[MangasVMKey.self] }
+        set { self[MangasVMKey.self] = newValue }
     }
 }
 

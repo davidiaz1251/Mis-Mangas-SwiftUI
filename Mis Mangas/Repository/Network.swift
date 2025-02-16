@@ -13,6 +13,7 @@ protocol DataRepository: Sendable{
     func getGenres() async throws -> [GenreModel]
     func getMangasByGenre(genre: GenreModel) async throws -> [Manga]
     func getBestMangas() async throws -> [Manga]
+    //func getCustomSearchMangas() async throws -> [Manga]
 }
 
 struct Network: DataRepository, NetworkInteractor{

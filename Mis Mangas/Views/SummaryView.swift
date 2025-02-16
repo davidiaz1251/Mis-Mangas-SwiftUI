@@ -58,6 +58,9 @@ struct SummaryView: View {
             }
             .padding()
         }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 50)
+        }
     }
 }
 
@@ -69,7 +72,7 @@ struct GenreListView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.title2)
+                .font(.headline)
                 .bold()
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {

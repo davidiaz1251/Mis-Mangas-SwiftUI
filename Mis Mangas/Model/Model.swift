@@ -28,7 +28,7 @@ struct Manga: Identifiable, Hashable , Codable {
     let demographics: [DemographicModel]
 }
 
-enum ThemeModel: String, CaseIterable, Codable {
+enum ThemeModel: String, CaseIterable, Codable, Identifiable {
     case gore = "Gore"
     case military = "Military"
     case mythology = "Mythology"
@@ -81,6 +81,9 @@ enum ThemeModel: String, CaseIterable, Codable {
     case educational = "Educational"
     case idolsFemale = "Idols (Female)"
     case idolsMale = "Idols (Male)"
+    case all = "All"
+    
+    var id: Self { self }
 }
 
 enum GenreModel: String, CaseIterable, Codable, Identifiable{
@@ -105,17 +108,43 @@ enum GenreModel: String, CaseIterable, Codable, Identifiable{
     case erotica = "Erotica"
     case hentai = "Hentai"
     case avantGarde = "Avant Garde"
+    case all = "All"
     
     var id: Self { self }
 }
 
-enum DemographicModel: String, CaseIterable, Codable {
+enum DemographicModel: String, CaseIterable, Codable, Identifiable {
     case seinen = "Seinen"
     case shounen = "Shounen"
     case shoujo = "Shoujo"
     case josei = "Josei"
     case kids = "Kids"
+    case all = "All"
+    
+    var id: Self { self }
 }
+
+enum MangaStatus: String, CaseIterable, Codable, Identifiable {
+    case currentlyPublishing = "Currently Publishing"
+    case finished = "Finished"
+    case onHiatus = "On Hiatus"
+    case discontinued = "Discontinued"
+    case all = "All"
+    
+    var id: Self { self }
+}
+
+enum SearchBy: String, CaseIterable, Codable, Identifiable {
+    case title = "Título"
+    case firstName = "Nombre del Autor"
+    case lastName = "Apellido del Autor"
+    case beginsWith = "Empieza con"
+    case contains = "Contenga"
+    case idManga = "Id manga"
+    
+    var id: Self { self }
+}
+
 
 struct AuthorModel: Hashable , Codable{
     let lastName: String

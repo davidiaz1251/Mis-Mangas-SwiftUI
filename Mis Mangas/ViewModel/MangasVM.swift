@@ -11,11 +11,19 @@ import SwiftUI
 final class MangasVM {
     let network: DataRepository
     var mangas: [Manga] = []
-    var genres: [GenreModel] = []
     
     var showAlert = false
     var errorMsg = ""
-    var search = ""
+    
+    var selectedGenre: GenreModel = .all
+    var selectedStatus: MangaStatus = .all
+    var selectedTheme: ThemeModel = .all
+    var selectedDemographic: DemographicModel = .all
+    var selectedSearchBy: SearchBy = .title
+    var minRating: Int = 0
+    var searchText = ""
+    
+    private var searchTimer: Timer?
     
     
     init(network: DataRepository = Network()) {
@@ -37,16 +45,6 @@ final class MangasVM {
         }
     }
     
-    func getGenres() async{
-        do{
-            self.genres = try await network.getGenres()
-        }catch{
-            print(error.localizedDescription)
-            self.errorMsg = error.localizedDescription
-            showAlert.toggle()
-        }
-    }
-    
     func getBestMangas() async{
         do{
             self.mangas = try await network.getBestMangas()
@@ -57,5 +55,57 @@ final class MangasVM {
             showAlert.toggle()
         }
     }
+    
+    func resetFilters() {
+        selectedGenre = .all
+        selectedTheme = .all
+        selectedDemographic = .all
+        selectedStatus = .all
+        selectedSearchBy = .title
+        minRating = 0
+    }
+    
+    private func searchMangas() async {
+        // Aquí implementas la lógica de búsqueda de manera asincrónica
+        print("Buscando mangas con \(searchText)")
+        print("\(selectedGenre)")
+        print("\(selectedTheme)")
+        print("\(selectedDemographic)")
+        print("\(selectedStatus)")
+        print("\(minRating)")
+        print("\(selectedSearchBy)")
+        // Por ejemplo, podrías hacer una llamada a una API aquí.
+    }
+    
+    func search() {
+        searchTimer?.invalidate()
+        if searchText.count >= 3 {
+            searchTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
+                Task {
+                    await self?.searchMangas()
+                }
+            }
+        }
+    }
+    
+    /*var filteredMangas: [Manga] {
+     allMangas.filter { manga in
+     let matchesSearch: Bool
+     switch selectedSearchCategory {
+     case .title:
+     matchesSearch = searchText.isEmpty || manga.title.localizedCaseInsensitiveContains(searchText)
+     case .firstName:
+     matchesSearch = searchText.isEmpty || manga.authors.contains { $0.firstName.localizedCaseInsensitiveContains(searchText) }
+     case .lastName:
+     matchesSearch = searchText.isEmpty || manga.authors.contains { $0.lastName.localizedCaseInsensitiveContains(searchText) }
+     }
+     
+     return matchesSearch &&
+     manga.genres.contains(selectedGenre) &&
+     manga.themes.contains(selectedTheme) &&
+     manga.demographics.contains(selectedDemographic) &&
+     manga.score >= Double(minRating)
+     }
+     }*/
 }
 
