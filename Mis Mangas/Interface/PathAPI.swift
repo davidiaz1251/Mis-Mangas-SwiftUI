@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIListEndpoint {
+enum APIListEndpoint: Hashable {
     case mangas
     case bestMangas
     case authors

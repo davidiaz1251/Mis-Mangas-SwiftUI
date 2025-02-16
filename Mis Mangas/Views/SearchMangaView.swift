@@ -21,7 +21,7 @@ struct SearchMangaView: View {
                     }
                 }
                 .navigationTitle("Buscar")
-                .navigationDestination(for: BasicFilterCategory.self, destination: { value in
+                .navigationDestination(for: APIListEndpoint.self, destination: { value in
                     SearchListView(category: value)
                 })
                 .toolbar {

@@ -9,7 +9,7 @@ import Foundation
 
 
 struct NetworkTest: DataRepository{
-    func getBestMangas() async throws -> [Manga] {
+    /*func getBestMangas() async throws -> [Manga] {
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }
     
@@ -24,6 +24,10 @@ struct NetworkTest: DataRepository{
     }
     
     func getMangasByGenre(genre: GenreModel) async throws -> [Manga] {
+        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
+    }*/
+    
+    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }
     

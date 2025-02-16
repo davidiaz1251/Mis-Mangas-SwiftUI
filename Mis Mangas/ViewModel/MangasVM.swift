@@ -29,23 +29,23 @@ final class MangasVM {
     init(network: DataRepository = Network()) {
         self.network = network
         Task{
-            await self.getBestMangas()
+            await self.getMangaBy(by: .bestMangas)
         }
     }
     
-    
-    
-    func getMangaByGenre(genre: GenreModel) async{
+    func getMangaBy(by: APIListEndpoint) async{
         do{
-            let mangasByGenre = try await network.getMangasByGenre(genre: genre)
+            let mangasByGenre = try await network.getMangasBy(by: by)
             self.mangas = mangasByGenre
         }catch{
             self.errorMsg = error.localizedDescription
+            self.mangas = []
             showAlert.toggle()
         }
     }
     
-    func getBestMangas() async{
+    
+    /*func getBestMangas() async{
         do{
             self.mangas = try await network.getBestMangas()
             print("\(self.mangas.count)")
@@ -54,7 +54,7 @@ final class MangasVM {
             self.errorMsg = error.localizedDescription
             showAlert.toggle()
         }
-    }
+    }*/
     
     func resetFilters() {
         selectedGenre = .all

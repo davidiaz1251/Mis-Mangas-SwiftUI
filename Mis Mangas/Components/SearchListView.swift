@@ -9,9 +9,20 @@ import SwiftUI
 
 struct SearchListView: View {
     @Environment(MangasVM.self) private var vm: MangasVM
-    let category: BasicFilterCategory
+    let category: APIListEndpoint
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("\(category.path)")
+                .font(.title)
+            if !vm.mangas.isEmpty{
+                ForEach(vm.mangas){manga in
+                    Text(manga.title)
+                }
+            }
+        }
+        .task {
+            await vm.getMangaBy(by: category)
+        }
     }
 }
 

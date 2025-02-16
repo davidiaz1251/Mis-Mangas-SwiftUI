@@ -8,16 +8,16 @@
 import Foundation
 
 protocol DataRepository: Sendable{
-    func getMangas() async throws -> [Manga]
+   /* func getMangas() async throws -> [Manga]
     func getMangaAutor(id: String) async throws -> Manga?
     func getGenres() async throws -> [GenreModel]
     func getMangasByGenre(genre: GenreModel) async throws -> [Manga]
-    func getBestMangas() async throws -> [Manga]
-    //func getCustomSearchMangas() async throws -> [Manga]
+    func getBestMangas() async throws -> [Manga]*/
+    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]
 }
 
 struct Network: DataRepository, NetworkInteractor{
-    func getMangas() async throws -> [Manga]{
+    /*func getMangas() async throws -> [Manga]{
         return try await getJson(request: .get(.getListMangas(endPoint: .mangas)), type: Response.self).items.compactMap{ $0.toManga }
     }
     
@@ -35,5 +35,11 @@ struct Network: DataRepository, NetworkInteractor{
     
     func getBestMangas() async throws -> [Manga]{
         try await getJson(request: .get(.getListMangas(endPoint: .bestMangas)), type: Response.self).items.compactMap{ $0.toManga }
+    }*/
+    
+    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]{
+        let result = try await getJson(request: .get(.getListMangas(endPoint: by)), type: Response.self).items.compactMap{ $0.toManga }
+        print(result)
+        return result
     }
 }
