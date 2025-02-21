@@ -27,7 +27,7 @@ struct NetworkTest: DataRepository{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }*/
     
-    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]{
+    func getMangasBy(by: APIListEndpoint, page: String = "1", per: String = "10") async throws -> [Manga]{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }
     

@@ -170,9 +170,8 @@
 		635EC4F72D358FD0001B421C /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				6911ED2F2D624A4900E44B34 /* Filters */,
+				E971F7E12D6909E800AB1763 /* Search */,
 				635EC5002D36E778001B421C /* ImageView.swift */,
-				6911ED302D62787A00E44B34 /* SearchListView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -204,6 +203,15 @@
 				6911ED2D2D62490800E44B34 /* FilterAdvanceView.swift */,
 			);
 			path = Filters;
+			sourceTree = "<group>";
+		};
+		E971F7E12D6909E800AB1763 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6911ED2F2D624A4900E44B34 /* Filters */,
+				6911ED302D62787A00E44B34 /* SearchListView.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

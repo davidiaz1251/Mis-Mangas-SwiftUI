@@ -13,7 +13,7 @@ protocol DataRepository: Sendable{
     func getGenres() async throws -> [GenreModel]
     func getMangasByGenre(genre: GenreModel) async throws -> [Manga]
     func getBestMangas() async throws -> [Manga]*/
-    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]
+    func getMangasBy(by: APIListEndpoint, page: String, per: String) async throws -> [Manga]
 }
 
 struct Network: DataRepository, NetworkInteractor{
@@ -37,9 +37,7 @@ struct Network: DataRepository, NetworkInteractor{
         try await getJson(request: .get(.getListMangas(endPoint: .bestMangas)), type: Response.self).items.compactMap{ $0.toManga }
     }*/
     
-    func getMangasBy(by: APIListEndpoint) async throws -> [Manga]{
-        let result = try await getJson(request: .get(.getListMangas(endPoint: by)), type: Response.self).items.compactMap{ $0.toManga }
-        print(result)
-        return result
+    func getMangasBy(by: APIListEndpoint, page: String = "1", per: String = "10") async throws -> [Manga]{
+        return try await getJson(request: .get(.getListMangas(endPoint: by, page: page, per: per)), type: Response.self).items.compactMap{ $0.toManga }
     }
 }

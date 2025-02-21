@@ -23,6 +23,12 @@ final class MangasVM {
     var minRating: Int = 0
     var searchText = ""
     
+    var loading = false
+    var allMangasLoaded = false
+    
+    var page = 1
+    var per = 12
+    
     private var searchTimer: Timer?
     
     
@@ -32,11 +38,15 @@ final class MangasVM {
             await self.getMangaBy(by: .bestMangas)
         }
     }
-    
+    /// ###se resetea la busqueda al volver del detalle
     func getMangaBy(by: APIListEndpoint) async{
         do{
-            let mangasByGenre = try await network.getMangasBy(by: by)
-            self.mangas = mangasByGenre
+            self.page = 1
+            self.loading = true
+            self.mangas = []
+            let mangasBy = try await network.getMangasBy(by: by, page: String(self.page), per: String(self.per))
+            self.mangas = mangasBy
+            self.loading = false
         }catch{
             self.errorMsg = error.localizedDescription
             self.mangas = []
@@ -44,17 +54,19 @@ final class MangasVM {
         }
     }
     
-    
-    /*func getBestMangas() async{
+    func loadMoreMangas(by: APIListEndpoint)async{
         do{
-            self.mangas = try await network.getBestMangas()
-            print("\(self.mangas.count)")
+            self.page += 1
+            let mangasBy = try await network.getMangasBy(by: by, page: String(self.page), per: String(self.per))
+            self.mangas += mangasBy
+            print(mangas.count)
         }catch{
-            print(error.localizedDescription)
             self.errorMsg = error.localizedDescription
+            self.mangas = []
             showAlert.toggle()
         }
-    }*/
+        
+    }
     
     func resetFilters() {
         selectedGenre = .all
