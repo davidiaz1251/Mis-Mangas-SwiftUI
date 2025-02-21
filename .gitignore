@@ -1,0 +1,3 @@
+# Ignorar archivos específicos de Xcode
+*.xcuserstate
+*.xcuserdata
