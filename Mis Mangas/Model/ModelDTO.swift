@@ -42,18 +42,18 @@ struct MisMangaDTO: Codable {
     }
     
     let id: Int
-    let title: String
+    let title: String?
     let titleEnglish: String?
-    let titleJapanese: String
+    let titleJapanese: String?
     let url: String
-    let startDate: Date
+    let startDate: Date?
     let endDate: Date?
     let chapters: Int?
     let volumes: Int?
     let score: Double
     let status: String
     let mainPicture: String
-    let sypnosis: String
+    let sypnosis: String?
     let background: String?
     let themes: [Theme]?
     let authors: [Author]
@@ -72,9 +72,9 @@ extension MisMangaDTO {
         
         return Manga(
             id: id,
-            title: title,
+            title: title ?? "Sin Título",
             titleEnglish: titleEnglish,
-            titleJapanese: titleJapanese,
+            titleJapanese: titleJapanese ?? "Sin Título",
             url: URL(string: url.trimmingCharacters(in: .init(charactersIn: "\""))),
             startDate: startDate,
             endDate: endDate,
@@ -83,7 +83,7 @@ extension MisMangaDTO {
             score: score,
             status: status,
             mainPicture: URL(string: mainPicture.trimmingCharacters(in: .init(charactersIn: "\""))),
-            sypnosis: sypnosis,
+            sypnosis: sypnosis ?? "Sin Datos",
             background: background,
             themes: mappedThemes,
             authors: mappedAuthors,

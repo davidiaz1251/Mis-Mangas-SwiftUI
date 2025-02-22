@@ -27,7 +27,7 @@ final class MangasVM {
     var allMangasLoaded = false
     
     var page = 1
-    var per = 12
+    var per = 24
     
     private var searchTimer: Timer?
     
@@ -61,8 +61,8 @@ final class MangasVM {
             self.mangas += mangasBy
             print(mangas.count)
         }catch{
+            print("Page", self.page)
             self.errorMsg = error.localizedDescription
-            self.mangas = []
             showAlert.toggle()
         }
         

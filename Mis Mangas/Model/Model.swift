@@ -13,7 +13,7 @@ struct Manga: Identifiable, Hashable , Codable {
     let titleEnglish: String?
     let titleJapanese: String
     let url: URL?
-    let startDate: Date
+    let startDate: Date?
     let endDate: Date?
     let chapters: Int?
     let volumes: Int?

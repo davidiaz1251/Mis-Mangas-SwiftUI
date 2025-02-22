@@ -15,7 +15,6 @@ struct SearchListView: View {
     
     var body: some View {
         VStack {
-            
             if vm.loading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -23,7 +22,7 @@ struct SearchListView: View {
                 ScrollView {
                     LazyVGrid(columns: gridItems, spacing: 20) {
                         ForEach(vm.mangas) { manga in
-                            NavigationLink(value: manga){
+                            NavigationLink(value: manga) {
                                 VStack {
                                     ImageView(url: manga.mainPicture)
                                         .scaledToFit()
@@ -31,30 +30,21 @@ struct SearchListView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
                             }
+                            .onAppear {
+                                if manga == vm.mangas.last {
+                                    Task {
+                                        await vm.loadMoreMangas(by: category)
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding()
-                    if !vm.allMangasLoaded {
-                        Button(action: {
-                            Task {
-                                await vm.loadMoreMangas(by: category)
-                            }
-                        }) {
-                            Text("Cargar más")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        .padding()
-                    }
                 }
                 .navigationDestination(for: Manga.self) { manga in
                     DetailMangaView(manga: manga)
                 }
             } else {
-                // Si no hay mangas, muestra un mensaje
                 Text("No mangas found.")
             }
         }
@@ -65,6 +55,7 @@ struct SearchListView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
 
 #Preview {
     NavigationStack{

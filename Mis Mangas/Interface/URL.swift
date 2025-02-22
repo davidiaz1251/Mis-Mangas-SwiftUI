@@ -18,7 +18,6 @@ let api = URL(string: "https://mymanga-acacademy-5607149ebe3d.herokuapp.com")!
 
 extension URL{
     static func getListMangas(endPoint: APIListEndpoint, page: String, per: String) -> URL{
-        print(api.appending(path: "list").appending(path: endPoint.path))
         return api.appending(path: "list").appending(path: endPoint.path).appending(queryItems:
                                                                                 [.querys("page", page),
                                                                                  .querys("per", per)])

@@ -17,7 +17,7 @@ struct SummaryView: View {
                     ("Título", manga.title),
                     ("Título en inglés", manga.titleEnglish),
                     ("Título japonés", manga.titleJapanese),
-                    ("Fecha de Publicación", manga.startDate.formatted(date: .abbreviated, time: .omitted)),
+                    ("Fecha de Publicación", manga.startDate?.formatted(date: .abbreviated, time: .omitted)),
                     ("Fecha de Finalización", manga.endDate?.formatted(date: .abbreviated, time: .omitted)),
                     ("Capítulos", manga.chapters.map { "\($0)" }),
                     ("Volúmenes", manga.volumes.map { "\($0)" }),
