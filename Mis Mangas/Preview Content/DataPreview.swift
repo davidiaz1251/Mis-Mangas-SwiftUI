@@ -9,28 +9,20 @@ import Foundation
 
 
 struct NetworkTest: DataRepository{
-    /*func getBestMangas() async throws -> [Manga] {
+    
+    func getMangasBy(prePath: PrePath = .list,by: APIListEndpoint, page: String = "1", per: String = "10") async throws -> [Manga]{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }
     
-    func getMangas() async throws -> [Manga] {
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
-    }
-    func getMangaAutor(id: String) async throws -> Manga? {
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }.first
-    }
-    func getGenres() async throws -> [GenreModel] {
-        try getJson(url: Bundle.main.url(forResource: "genrePreview", withExtension: "json")!, type: [GenreModel].self)
+    func getListBy(by: APIListEndpoint) async throws -> [String]{
+        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [String].self)
     }
     
-    func getMangasByGenre(genre: GenreModel) async throws -> [Manga] {
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
-    }*/
-    
-    func getMangasBy(by: APIListEndpoint, page: String = "1", per: String = "10") async throws -> [Manga]{
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
+    func getListAuthor(by: APIListEndpoint) async throws -> [String]{
+        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [Author].self).compactMap{
+            $0.toString
+        }
     }
-    
     
     func getJson<JSON>(url: URL, type: JSON.Type) throws -> JSON where JSON: Decodable {
         let decoder = JSONDecoder()

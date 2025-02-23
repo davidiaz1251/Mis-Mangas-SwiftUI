@@ -1,3 +1,4 @@
 # Ignorar archivos específicos de Xcode
 *.xcuserstate
 *.xcuserdata
+.DS_Store

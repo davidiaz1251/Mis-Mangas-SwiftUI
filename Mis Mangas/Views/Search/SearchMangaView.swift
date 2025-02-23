@@ -21,9 +21,13 @@ struct SearchMangaView: View {
                     }
                 }
                 .navigationTitle("Buscar")
-                .navigationDestination(for: APIListEndpoint.self, destination: { value in
-                    SearchListView(category: value)
-                })
+                .navigationDestination(for: APIListEndpoint.self){ category in
+                    if category != .authors && category != .demographics && category != .genres && category != .themes{
+                        SearchListView(category: category)
+                    }else{
+                        ListCategoryView(category: category)
+                    }
+                }
                 .toolbar {
                     ToolbarItemGroup(placement: .primaryAction) {
                         Menu {

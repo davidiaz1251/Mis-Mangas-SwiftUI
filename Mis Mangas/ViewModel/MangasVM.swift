@@ -11,6 +11,7 @@ import SwiftUI
 final class MangasVM {
     let network: DataRepository
     var mangas: [Manga] = []
+    var listCategory: [String] = []
     
     var showAlert = false
     var errorMsg = ""
@@ -24,10 +25,10 @@ final class MangasVM {
     var searchText = ""
     
     var loading = false
-    var allMangasLoaded = false
     
     var page = 1
     var per = 24
+    var currentBy: APIListEndpoint?
     
     private var searchTimer: Timer?
     
@@ -38,26 +39,39 @@ final class MangasVM {
             await self.getMangaBy(by: .bestMangas)
         }
     }
-    /// ###se resetea la busqueda al volver del detalle
-    func getMangaBy(by: APIListEndpoint) async{
-        do{
-            self.page = 1
-            self.loading = true
-            self.mangas = []
-            let mangasBy = try await network.getMangasBy(by: by, page: String(self.page), per: String(self.per))
-            self.mangas = mangasBy
+    func getMangaBy(prePath: PrePath = .list, by: APIListEndpoint) async {
+        
+        if currentBy?.path != by.path {
+            currentBy = by
+        }
+
+        self.page = 1
+        self.mangas = []
+        self.loading = true
+        
+        defer {
             self.loading = false
-        }catch{
+        }
+        
+        do {
+            let mangasBy = try await network.getMangasBy(
+                prePath: prePath,
+                by: by,
+                page: "\(self.page)",
+                per: "\(self.per)"
+            )
+            self.mangas = mangasBy
+        } catch {
             self.errorMsg = error.localizedDescription
             self.mangas = []
             showAlert.toggle()
         }
     }
     
-    func loadMoreMangas(by: APIListEndpoint)async{
+    func loadMoreMangas(prePath: PrePath = .list, by: APIListEndpoint) async{
         do{
             self.page += 1
-            let mangasBy = try await network.getMangasBy(by: by, page: String(self.page), per: String(self.per))
+            let mangasBy = try await network.getMangasBy(prePath: prePath, by: by, page: String(self.page), per: String(self.per))
             self.mangas += mangasBy
             print(mangas.count)
         }catch{
@@ -67,6 +81,27 @@ final class MangasVM {
         }
         
     }
+    
+    func loadListCategory(endpoint: APIListEndpoint) async {
+        self.loading = true
+        self.listCategory = []
+        defer { self.loading = false }
+        
+        do {
+            switch endpoint {
+            case .authors:
+                self.listCategory = try await network.getListAuthor(by: endpoint)
+            default:
+                self.listCategory = try await network.getListBy(by: endpoint)
+            }
+        } catch {
+            print("Error al cargar la lista para \(endpoint): \(error)")
+            self.errorMsg = error.localizedDescription
+            showAlert.toggle()
+        }
+    }
+    
+    
     
     func resetFilters() {
         selectedGenre = .all
@@ -86,18 +121,19 @@ final class MangasVM {
         print("\(selectedStatus)")
         print("\(minRating)")
         print("\(selectedSearchBy)")
+        
         // Por ejemplo, podrías hacer una llamada a una API aquí.
     }
     
     func search() {
         searchTimer?.invalidate()
-        if searchText.count >= 3 {
+        //if searchText.count >= 3 {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
                 Task {
                     await self?.searchMangas()
                 }
             }
-        }
+        //}
     }
     
     /*var filteredMangas: [Manga] {

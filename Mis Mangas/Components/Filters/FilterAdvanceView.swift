@@ -66,7 +66,7 @@ struct FilterAdvanceView: View {
                 searchBy: searchBy,
                 reset: vm.resetFilters
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.large])
         }
     }
 }

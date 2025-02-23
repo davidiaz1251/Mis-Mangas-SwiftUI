@@ -18,17 +18,17 @@ struct MetaData: Codable{
     let total: Int
 }
 
+struct Author: Codable {
+    let firstName: String
+    let lastName: String
+    let role: String
+    let id: String
+}
+
 struct MisMangaDTO: Codable {
     struct Theme: Codable {
         let id: String
         let theme: String
-    }
-    
-    struct Author: Codable {
-        let firstName: String
-        let lastName: String
-        let role: String
-        let id: String
     }
     
     struct Genre: Codable {
@@ -90,5 +90,11 @@ extension MisMangaDTO {
             genres: mappedGenres,
             demographics: mappedDemographics
         )
+    }
+}
+
+extension Author{
+    var toString: String{
+        "\(firstName) \(lastName)"
     }
 }

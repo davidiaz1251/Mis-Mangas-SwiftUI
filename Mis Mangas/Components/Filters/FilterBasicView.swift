@@ -37,9 +37,6 @@ struct FilterBasicView: View {
     }
 }
 
-/*enum BasicFilterCategory: String, Hashable {
-    case genres, authors, demographics, themes, bestMangas, all
-}*/
 
 #Preview {
     NavigationStack {

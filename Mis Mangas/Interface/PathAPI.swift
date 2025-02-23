@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum PrePath: String{
+    case list = "list"
+    case search = "search"
+}
+
 enum APIListEndpoint: Hashable {
     case mangas
     case bestMangas
