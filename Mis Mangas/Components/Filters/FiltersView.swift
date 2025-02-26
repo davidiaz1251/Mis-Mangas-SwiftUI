@@ -89,7 +89,7 @@ struct FiltersView: View {
                 
                 
                 Section {
-                    Stepper("Puntuación mínima: \(minRating.formatted(.number.precision(.fractionLength(0))))", value: $minRating, in: 0...10)
+                    Stepper("Puntuación mínima: \(minRating.formatted(withDecimals: 0))", value: $minRating, in: 0...10)
                 } header: {
                     Text("Puntuación")
                 }
