@@ -2,7 +2,7 @@
 //  SearchVM.swift
 //  Mis Mangas
 //
-//  Created by Alex Guerrero Flores on 15/2/25.
+//  Created by luis david diaz ramirez on 15/2/25.
 //
 
 import Foundation
