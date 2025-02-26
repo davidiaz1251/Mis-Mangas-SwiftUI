@@ -23,6 +23,9 @@ enum APIListEndpoint: Hashable {
     case mangaByDemographic(String)
     case mangaByTheme(String)
     case mangaByAuthor(String)
+    case mangasBeginsWith(String)
+    case mangasContains(String)
+    case mangaId(String)
     
     var path: String {
         switch self {
@@ -46,6 +49,12 @@ enum APIListEndpoint: Hashable {
             return "mangaByTheme/\(theme)"
         case .mangaByAuthor(let authorID):
             return "mangaByAuthor/\(authorID)"
+        case .mangasBeginsWith(let begins):
+            return "mangasBeginsWith/\(begins)"
+        case .mangasContains(let contains):
+            return "mangasBeginsWith/\(contains)"
+        case .mangaId(let id):
+            return "mangasBeginsWith/\(id)"
         }
     }
 }

@@ -52,11 +52,11 @@ struct MisMangaDTO: Codable {
     let volumes: Int?
     let score: Double
     let status: String
-    let mainPicture: String
+    let mainPicture: String?
     let sypnosis: String?
     let background: String?
     let themes: [Theme]?
-    let authors: [Author]
+    let authors: [Author]?
     let genres: [Genre]?
     let demographics: [Demographic]?
 }
@@ -64,7 +64,7 @@ struct MisMangaDTO: Codable {
 extension MisMangaDTO {
     var toManga: Manga? {
         let mappedThemes = themes?.compactMap { ThemeModel(rawValue: $0.theme) } ?? []
-        let mappedAuthors = authors.map { AuthorModel(lastName: $0.lastName, firstName: $0.firstName, id: UUID(uuidString: $0.id)!, role: $0.role) }
+        let mappedAuthors = authors?.compactMap { AuthorModel(lastName: $0.lastName, firstName: $0.firstName, id: UUID(uuidString: $0.id)!, role: $0.role) } ?? []
         let mappedGenres = genres?.compactMap { GenreModel(rawValue: $0.genre) } ?? []
         let mappedDemographics = demographics?.compactMap { DemographicModel(rawValue: $0.demographic) } ?? []
         
@@ -82,7 +82,7 @@ extension MisMangaDTO {
             volumes: volumes,
             score: score,
             status: status,
-            mainPicture: URL(string: mainPicture.trimmingCharacters(in: .init(charactersIn: "\""))),
+            mainPicture: URL(string: mainPicture?.trimmingCharacters(in: .init(charactersIn: "\"")) ?? ""),
             sypnosis: sypnosis ?? "Sin Datos",
             background: background,
             themes: mappedThemes,

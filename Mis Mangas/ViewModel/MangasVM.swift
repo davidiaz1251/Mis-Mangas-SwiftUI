@@ -21,7 +21,7 @@ final class MangasVM {
     var selectedTheme: ThemeModel = .all
     var selectedDemographic: DemographicModel = .all
     var selectedSearchBy: SearchBy = .title
-    var minRating: Int = 0
+    var minRating: Double = 0
     var searchText = ""
     
     var loading = false
@@ -39,12 +39,14 @@ final class MangasVM {
             await self.getMangaBy(by: .bestMangas)
         }
     }
-    func getMangaBy(prePath: PrePath = .list, by: APIListEndpoint) async {
+    
+    func getMangaBy(prePath: PrePath = .list,
+                    by: APIListEndpoint,
+                    fetcher: ((PrePath, APIListEndpoint) async throws -> [Manga])? = nil) async {
         
         if currentBy?.path != by.path {
             currentBy = by
         }
-
         self.page = 1
         self.mangas = []
         self.loading = true
@@ -54,13 +56,20 @@ final class MangasVM {
         }
         
         do {
-            let mangasBy = try await network.getMangasBy(
-                prePath: prePath,
-                by: by,
-                page: "\(self.page)",
-                per: "\(self.per)"
-            )
-            self.mangas = mangasBy
+            let mangasBy: [Manga]
+            
+            if let fetcher = fetcher {
+                mangasBy = try await fetcher(prePath, by)
+            } else {
+                mangasBy = try await network.getMangasBy(
+                    prePath: prePath,
+                    by: by,
+                    page: "\(self.page)",
+                    per: "\(self.per)"
+                )
+            }
+            
+            self.mangas = filterLocal(mangas: mangasBy)
         } catch {
             self.errorMsg = error.localizedDescription
             self.mangas = []
@@ -112,7 +121,7 @@ final class MangasVM {
         minRating = 0
     }
     
-    private func searchMangas() async {
+    private func searchMangas() {
         // Aquí implementas la lógica de búsqueda de manera asincrónica
         print("Buscando mangas con \(searchText)")
         print("\(selectedGenre)")
@@ -121,19 +130,51 @@ final class MangasVM {
         print("\(selectedStatus)")
         print("\(minRating)")
         print("\(selectedSearchBy)")
-        
-        // Por ejemplo, podrías hacer una llamada a una API aquí.
+        var prePath: PrePath = .list
+        var endPoint: APIListEndpoint
+        switch selectedSearchBy {
+        case .contains:
+            prePath = .search
+            endPoint = .mangasContains(searchText)
+        case .beginsWith:
+            prePath = .search
+            endPoint = .mangasBeginsWith(searchText)
+        case .idManga:
+            prePath = .search
+            endPoint = .mangaId(searchText)
+        default:
+            endPoint = .mangas
+        }
+        print(prePath, endPoint)
+        Task{
+            await getMangaBy(prePath: prePath, by: endPoint, fetcher: network.getMangasBy(prePath:by:))
+            print(mangas.count)
+        }
     }
     
     func search() {
         searchTimer?.invalidate()
-        //if searchText.count >= 3 {
+        if searchText.count >= 3 {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
                 Task {
                     await self?.searchMangas()
                 }
             }
-        //}
+        }
+    }
+    
+    func filterLocal(mangas: [Manga])-> [Manga]{
+        var filterMangas = mangas
+        if selectedStatus == .all && minRating == 0 {
+            return filterMangas
+        }
+        if selectedStatus != .all {
+            filterMangas = filterMangas.filter{ $0.status == selectedStatus.rawValue}
+        }
+        if minRating > 0 {
+            filterMangas = filterMangas.filter{ $0.score >= minRating}
+        }
+        return filterMangas
     }
     
     /*var filteredMangas: [Manga] {

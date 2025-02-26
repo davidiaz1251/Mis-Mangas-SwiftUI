@@ -14,7 +14,7 @@ struct FiltersView: View {
     @Binding var selectedDemographic: DemographicModel
     @Binding var selectedStatus: MangaStatus
     @Binding var selectedBy: SearchBy
-    @Binding var minRating: Int
+    @Binding var minRating: Double
     
     let genres: [GenreModel]
     let themes: [ThemeModel]
@@ -89,7 +89,7 @@ struct FiltersView: View {
                 
                 
                 Section {
-                    Stepper("Puntuación mínima: \(minRating)", value: $minRating, in: 0...10)
+                    Stepper("Puntuación mínima: \(minRating.formatted(.number.precision(.fractionLength(0))))", value: $minRating, in: 0...10)
                 } header: {
                     Text("Puntuación")
                 }
