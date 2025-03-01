@@ -63,7 +63,6 @@ struct DetailMangaView: View {
             case .personajes:
                 Text("personajes")
             }
-            Spacer()
         }
         .ignoresSafeArea()
         .toolbar {
