@@ -28,6 +28,9 @@ struct SearchMangaView: View {
                         ListCategoryView(category: category)
                     }
                 }
+                .navigationDestination(for: Manga.self) { manga in
+                    DetailMangaView(manga: manga)
+                }
                 .toolbar {
                     ToolbarItemGroup(placement: .primaryAction) {
                         Menu {

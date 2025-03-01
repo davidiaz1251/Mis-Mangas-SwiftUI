@@ -14,6 +14,7 @@ enum PrePath: String{
 
 enum APIListEndpoint: Hashable {
     case mangas
+    case manga
     case bestMangas
     case authors
     case demographics
@@ -30,31 +31,33 @@ enum APIListEndpoint: Hashable {
     var path: String {
         switch self {
         case .mangas:
-            return "mangas"
+            "mangas"
+        case .manga:
+            "manga"
         case .bestMangas:
-            return "bestMangas"
+            "bestMangas"
         case .authors:
-            return "authors"
+            "authors"
         case .demographics:
-            return "demographics"
+            "demographics"
         case .genres:
-            return "genres"
+            "genres"
         case .themes:
-            return "themes"
+            "themes"
         case .mangaByGenre(let genre):
-            return "mangaByGenre/\(genre)"
+            "mangaByGenre/\(genre)"
         case .mangaByDemographic(let demographic):
-            return "mangaByDemographic/\(demographic)"
+            "mangaByDemographic/\(demographic)"
         case .mangaByTheme(let theme):
-            return "mangaByTheme/\(theme)"
+            "mangaByTheme/\(theme)"
         case .mangaByAuthor(let authorID):
-            return "mangaByAuthor/\(authorID)"
+            "mangaByAuthor/\(authorID)"
         case .mangasBeginsWith(let begins):
-            return "mangasBeginsWith/\(begins)"
+            "mangasBeginsWith/\(begins)"
         case .mangasContains(let contains):
-            return "mangasBeginsWith/\(contains)"
+            "mangasContains/\(contains)"
         case .mangaId(let id):
-            return "mangasBeginsWith/\(id)"
+            "manga/\(id)"
         }
     }
 }

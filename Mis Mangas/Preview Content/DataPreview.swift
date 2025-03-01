@@ -14,7 +14,15 @@ struct NetworkTest: DataRepository{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: Response.self).items.compactMap{ $0.toManga }
     }
     
-    func getMangasBy(prePath: PrePath = .list,by: APIListEndpoint) async throws -> [Manga]{
+    func getMangasBySearch(prePath: PrePath = .list,by: APIListEndpoint) async throws -> [Manga]{
+        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [MisMangaDTO].self).compactMap{ $0.toManga }
+    }
+    
+    func getMangaById(prePath: PrePath = .list,by: APIListEndpoint) async throws -> Manga?{
+        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: MisMangaDTO.self).toManga
+    }
+    
+    func getMangasCustom(prePath: PrePath, by: APIListEndpoint, body: CustomSearch) async throws -> [Manga]{
         try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [MisMangaDTO].self).compactMap{ $0.toManga }
     }
     

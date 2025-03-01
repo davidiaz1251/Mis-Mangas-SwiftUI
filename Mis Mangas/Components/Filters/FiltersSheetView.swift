@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct FiltersView: View {
+struct FiltersSheetView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var selectedGenre: GenreModel
     @Binding var selectedTheme: ThemeModel
     @Binding var selectedDemographic: DemographicModel
     @Binding var selectedStatus: MangaStatus
     @Binding var selectedBy: SearchBy
+    @Binding var contain: Bool
     @Binding var minRating: Double
     
     let genres: [GenreModel]
@@ -73,6 +74,12 @@ struct FiltersView: View {
                         .pickerStyle(.menu)
                     } header: {
                         Text("Demografía")
+                    }
+                    
+                    Section {
+                        Toggle("Contenga", isOn: $contain)
+                    } header: {
+                        Text("Contenga")
                     }
                 }
                 

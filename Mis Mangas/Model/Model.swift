@@ -125,6 +125,7 @@ enum DemographicModel: String, CaseIterable, Codable, Identifiable {
 }
 
 enum MangaStatus: String, CaseIterable, Codable, Identifiable {
+    // coregir para el filtro
     case currentlyPublishing = "Currently Publishing"
     case finished = "Finished"
     case onHiatus = "On Hiatus"
@@ -153,3 +154,22 @@ struct AuthorModel: Hashable , Codable{
     let role: String
 }
 
+extension Manga {
+    func formattedGenres(limit: Int = 2) -> String {
+        let genresList = genres.prefix(limit).map { $0.rawValue }.joined(separator: ", ")
+        return "Géneros: \(genresList)"
+    }
+    
+    static func searchEndpoint(for searchBy: SearchBy, query: String) -> (PrePath, APIListEndpoint) {
+        switch searchBy {
+        case .contains:
+            (.search, .mangasContains(query))
+        case .beginsWith:
+             (.search, .mangasBeginsWith(query))
+        case .idManga:
+             (.search, .mangaId(query))
+        case .title, .firstName, .lastName:
+            (.search, .manga)
+        }
+    }
+}

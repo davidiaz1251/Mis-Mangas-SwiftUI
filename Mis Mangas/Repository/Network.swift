@@ -9,9 +9,11 @@ import Foundation
 
 protocol DataRepository: Sendable{
     func getMangasBy(prePath: PrePath, by: APIListEndpoint, page: String, per: String) async throws -> [Manga]
-    func getMangasBy(prePath: PrePath, by: APIListEndpoint) async throws -> [Manga]
+    func getMangasBySearch(prePath: PrePath, by: APIListEndpoint) async throws -> [Manga]
+    func getMangaById(prePath: PrePath, by: APIListEndpoint) async throws -> Manga?
     func getListBy(by: APIListEndpoint) async throws -> [String]
     func getListAuthor(by: APIListEndpoint) async throws -> [String]
+    func getMangasCustom(prePath: PrePath, by: APIListEndpoint, body: CustomSearch) async throws -> [Manga]
 }
 
 struct Network: DataRepository, NetworkInteractor{
@@ -20,16 +22,24 @@ struct Network: DataRepository, NetworkInteractor{
         return try await getJson(request: .get(.getListMangas(prePath: prePath, endPoint: by, page: page, per: per)), type: Response.self).items.compactMap{ $0.toManga }
     }
     
-    func getMangasBy(prePath: PrePath, by: APIListEndpoint) async throws -> [Manga]{
-        return try await getJson(request: .get(.getListMangas(prePath: prePath, endPoint: by, page: "1", per: "10")), type: [MisMangaDTO].self).compactMap{ $0.toManga }
+    func getMangasBySearch(prePath: PrePath, by: APIListEndpoint) async throws -> [Manga]{
+        return try await getJson(request: .get(.getListMangas(prePath: prePath, endPoint: by)), type: [MisMangaDTO].self).compactMap{ $0.toManga }
+    }
+    
+    func getMangaById(prePath: PrePath, by: APIListEndpoint) async throws -> Manga?{
+        return try await getJson(request: .get(.getListMangas(prePath: prePath, endPoint: by)), type: MisMangaDTO.self).toManga
+    }
+    
+    func getMangasCustom(prePath: PrePath, by: APIListEndpoint, body: CustomSearch) async throws -> [Manga]{
+        return try await getJson(request: .post(url: .getListMangas(prePath: prePath, endPoint: by), body: body), type: Response.self).items.compactMap{ $0.toManga }
     }
     
     func getListBy(by: APIListEndpoint) async throws -> [String]{
-        return try await getJson(request: .get(.getListMangas(endPoint: by, page: "1", per: "10")), type: [String].self)
+        return try await getJson(request: .get(.getListMangas(endPoint: by)), type: [String].self)
     }
     
     func getListAuthor(by: APIListEndpoint) async throws -> [String]{
-        return try await getJson(request: .get(.getListMangas(endPoint: by, page: "1", per: "10")), type: [Author].self).compactMap{
+        return try await getJson(request: .get(.getListMangas(endPoint: by)), type: [Author].self).compactMap{
             $0.toString
         }
     }

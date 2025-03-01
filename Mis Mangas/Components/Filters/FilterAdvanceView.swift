@@ -39,6 +39,10 @@ struct FilterAdvanceView: View {
                     .padding(.trailing, 8)
                 }
                 .padding()
+                LoadingView(content: {
+                    ListMangasView(mangas: vm.mangas)
+                        .padding(.horizontal)
+                }, data: !vm.mangas.isEmpty, loading: vm.loading)
             }
         }
         .toolbar{
@@ -52,12 +56,13 @@ struct FilterAdvanceView: View {
             }
         }
         .sheet(isPresented: $showFilters) {
-            FiltersView(
+            FiltersSheetView(
                 selectedGenre: $vm.selectedGenre,
                 selectedTheme: $vm.selectedTheme,
                 selectedDemographic: $vm.selectedDemographic,
                 selectedStatus: $vm.selectedStatus,
                 selectedBy: $vm.selectedSearchBy,
+                contain: $vm.selectContain,
                 minRating: $vm.minRating,
                 genres: genres,
                 themes: themes,
@@ -67,6 +72,9 @@ struct FilterAdvanceView: View {
                 reset: vm.resetFilters
             )
             .presentationDetents([.large])
+        }
+        .onAppear{
+            //vm.mangas.removeAll()
         }
     }
 }

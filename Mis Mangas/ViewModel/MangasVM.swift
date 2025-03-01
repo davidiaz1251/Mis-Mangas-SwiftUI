@@ -21,6 +21,7 @@ final class MangasVM {
     var selectedTheme: ThemeModel = .all
     var selectedDemographic: DemographicModel = .all
     var selectedSearchBy: SearchBy = .title
+    var selectContain = false
     var minRating: Double = 0
     var searchText = ""
     
@@ -42,7 +43,8 @@ final class MangasVM {
     
     func getMangaBy(prePath: PrePath = .list,
                     by: APIListEndpoint,
-                    fetcher: ((PrePath, APIListEndpoint) async throws -> [Manga])? = nil) async {
+                    fetcher: SearchBy? = nil,
+                    custom: CustomSearch? = nil) async {
         
         if currentBy?.path != by.path {
             currentBy = by
@@ -57,22 +59,28 @@ final class MangasVM {
         
         do {
             let mangasBy: [Manga]
-            
-            if let fetcher = fetcher {
-                mangasBy = try await fetcher(prePath, by)
-            } else {
+            switch fetcher {
+            case .some(.idManga):
+                let manga = try await network.getMangaById(prePath: prePath, by: by)
+                mangasBy = manga != nil ? [manga!] : []
+            case .none, .contains:
                 mangasBy = try await network.getMangasBy(
                     prePath: prePath,
                     by: by,
                     page: "\(self.page)",
                     per: "\(self.per)"
                 )
+            case .firstName, .lastName, .title:
+                mangasBy = try await network.getMangasCustom(prePath: prePath, by: by, body: custom!)
+            case .some(_):
+                mangasBy = try await network.getMangasBySearch(prePath: prePath, by: by)
             }
             
-            self.mangas = filterLocal(mangas: mangasBy)
+            self.mangas = mangasBy.filteredBy(status: selectedStatus, minRating: minRating)
         } catch {
             self.errorMsg = error.localizedDescription
             self.mangas = []
+            print(error.localizedDescription)
             showAlert.toggle()
         }
     }
@@ -122,79 +130,35 @@ final class MangasVM {
     }
     
     private func searchMangas() {
-        // Aquí implementas la lógica de búsqueda de manera asincrónica
-        print("Buscando mangas con \(searchText)")
-        print("\(selectedGenre)")
-        print("\(selectedTheme)")
-        print("\(selectedDemographic)")
-        print("\(selectedStatus)")
-        print("\(minRating)")
-        print("\(selectedSearchBy)")
-        var prePath: PrePath = .list
-        var endPoint: APIListEndpoint
-        switch selectedSearchBy {
-        case .contains:
-            prePath = .search
-            endPoint = .mangasContains(searchText)
-        case .beginsWith:
-            prePath = .search
-            endPoint = .mangasBeginsWith(searchText)
-        case .idManga:
-            prePath = .search
-            endPoint = .mangaId(searchText)
-        default:
-            endPoint = .mangas
-        }
-        print(prePath, endPoint)
+        let (prePath, endPoint) = Manga.searchEndpoint(for: selectedSearchBy, query: searchText)
+        
+        let customSearch = CustomSearch(
+            searchTitle: !searchText.isEmpty && selectedSearchBy == .title ? searchText : nil,
+            searchAuthorFirstName: !searchText.isEmpty && selectedSearchBy == .firstName ? searchText : nil,
+            searchAuthorLastName: !searchText.isEmpty && selectedSearchBy == .lastName ? searchText : nil,
+            searchGenres: selectedGenre != .all ? [selectedGenre.rawValue] : nil,
+            searchThemes: selectedTheme != .all ? [selectedTheme.rawValue] : nil,
+            searchDemographics: selectedDemographic != .all ? [selectedDemographic.rawValue] : nil,
+            searchContains: selectContain
+        )
         Task{
-            await getMangaBy(prePath: prePath, by: endPoint, fetcher: network.getMangasBy(prePath:by:))
+            await getMangaBy(prePath: prePath, by: endPoint, fetcher: selectedSearchBy, custom: customSearch)
             print(mangas.count)
         }
     }
     
     func search() {
         searchTimer?.invalidate()
-        if searchText.count >= 3 {
+        if searchText.count >= 1 {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
                 Task {
                     await self?.searchMangas()
                 }
             }
+        }else{
+            self.mangas = []
         }
     }
     
-    func filterLocal(mangas: [Manga])-> [Manga]{
-        var filterMangas = mangas
-        if selectedStatus == .all && minRating == 0 {
-            return filterMangas
-        }
-        if selectedStatus != .all {
-            filterMangas = filterMangas.filter{ $0.status == selectedStatus.rawValue}
-        }
-        if minRating > 0 {
-            filterMangas = filterMangas.filter{ $0.score >= minRating}
-        }
-        return filterMangas
-    }
-    
-    /*var filteredMangas: [Manga] {
-     allMangas.filter { manga in
-     let matchesSearch: Bool
-     switch selectedSearchCategory {
-     case .title:
-     matchesSearch = searchText.isEmpty || manga.title.localizedCaseInsensitiveContains(searchText)
-     case .firstName:
-     matchesSearch = searchText.isEmpty || manga.authors.contains { $0.firstName.localizedCaseInsensitiveContains(searchText) }
-     case .lastName:
-     matchesSearch = searchText.isEmpty || manga.authors.contains { $0.lastName.localizedCaseInsensitiveContains(searchText) }
-     }
-     
-     return matchesSearch &&
-     manga.genres.contains(selectedGenre) &&
-     manga.themes.contains(selectedTheme) &&
-     manga.demographics.contains(selectedDemographic) &&
-     manga.score >= Double(minRating)
-     }
-     }*/
 }
 

@@ -46,9 +46,6 @@ struct SearchListView: View {
                 }
                 .padding()
             }
-            .navigationDestination(for: Manga.self) { manga in
-                DetailMangaView(manga: manga)
-            }
         }, data: !vm.mangas.isEmpty , loading: vm.loading)
         .task {
             if vm.currentBy != category{

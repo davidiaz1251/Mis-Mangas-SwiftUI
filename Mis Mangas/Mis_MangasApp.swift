@@ -32,16 +32,3 @@ struct Mis_MangasApp: App {
         }
     }
 }
-
-struct MangasVMKey: @preconcurrency EnvironmentKey {
-    @MainActor static var defaultValue: MangasVM { MangasVM() }
-}
-
-// Extensión de EnvironmentValues
-extension EnvironmentValues {
-    var mangasVM: MangasVM {
-        get { self[MangasVMKey.self] }
-        set { self[MangasVMKey.self] = newValue }
-    }
-}
-
