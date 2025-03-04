@@ -25,7 +25,7 @@ struct LoadingView<Content: View>: View {
             } else if data {
                 content()
             } else {
-                Text("No hay información.")
+                ContentUnavailableView.search
             }
         }
     }

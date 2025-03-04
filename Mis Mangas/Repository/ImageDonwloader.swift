@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-actor ImageDonwloader{
-    static let shared = ImageDonwloader()
+actor ImageDownloader{
+    static let shared = ImageDownloader()
     
     private enum ImageStatus{
-        case donwloading(_ task: Task<UIImage, any Error>)
+        case downloading(_ task: Task<UIImage, any Error>)
         case downloaded(_ image: UIImage)
     }
     
@@ -30,7 +30,7 @@ actor ImageDonwloader{
     func image(from url: URL) async throws -> UIImage{
         if let status = cache[url]{    
             return switch status{
-            case .donwloading(let task):
+            case .downloading(let task):
                 try await task.value
             case .downloaded(let image):
                 image
@@ -38,12 +38,12 @@ actor ImageDonwloader{
         }
         let task = Task{ try await getImage(url: url) }
         
-        cache[url] = .donwloading(task)
+        cache[url] = .downloading(task)
         
         do{
             let image = try await task.value
             cache[url] = .downloaded(image)
-            try await saveimage(url: url)
+            try await saveImage(url: url)
             return image
         }catch{
             cache.removeValue(forKey: url)
@@ -51,7 +51,7 @@ actor ImageDonwloader{
         }
     }
     
-    private func saveimage(url: URL) async throws{
+    private func saveImage(url: URL) async throws{
         guard let imageCache = cache[url] else{ return }
         if case .downloaded(let image) = imageCache,
            let resized = await image.resizedImage(width: 300)?.heicData(){

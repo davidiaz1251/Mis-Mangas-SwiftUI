@@ -61,7 +61,8 @@ struct DetailMangaView: View {
             case .resumen:
                 SummaryView(manga: manga)
             case .personajes:
-                Text("personajes")
+                CharactersView(id: manga.id)
+                    .frame(maxHeight: .infinity)
             }
         }
         .ignoresSafeArea()

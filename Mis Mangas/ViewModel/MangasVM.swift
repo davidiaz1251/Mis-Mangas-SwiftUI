@@ -12,6 +12,7 @@ final class MangasVM {
     let network: DataRepository
     var mangas: [Manga] = []
     var listCategory: [String] = []
+    var characters: [CharacterModel] = []
     
     var showAlert = false
     var errorMsg = ""
@@ -157,6 +158,22 @@ final class MangasVM {
             }
         }else{
             self.mangas = []
+        }
+    }
+    
+    func getCharacters(id: Int) async {
+        self.characters = []
+        self.loading = true
+        
+        defer {
+            self.loading = false
+        }
+        
+        do{
+            self.characters = try await network.getCharacters(id: "\(id)")
+            print("\(self.characters.count)")
+        }catch{
+            print(error.localizedDescription)
         }
     }
     

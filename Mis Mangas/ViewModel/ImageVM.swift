@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable @MainActor
 final class ImageVM{
-    let imageDownloader = ImageDonwloader.shared
+    let imageDownloader = ImageDownloader.shared
     
     var image: UIImage?
               

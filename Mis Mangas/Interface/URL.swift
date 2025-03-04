@@ -8,6 +8,7 @@
 import Foundation
 
 let api = URL(string: "https://mymanga-acacademy-5607149ebe3d.herokuapp.com")!
+let apiCharacterImages = URL(string: "https://api.jikan.moe/v4/manga")!
 
 /// # in case you need for different environments #
 //#if DEBUG
@@ -25,6 +26,12 @@ extension URL{
                                                                                 [.querys("page", page),
                                                                                  .querys("per", per)])
     }
+    
+    static func getCharacterImages(id: String) -> URL{
+        print(apiCharacterImages.appending(path: id ).appending(path: "characters"))
+        return apiCharacterImages.appending(path: id ).appending(path: "characters")
+    }
+    
 }
 
 extension URLQueryItem{

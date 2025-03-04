@@ -15,11 +15,11 @@ struct NetworkTest: DataRepository{
     }
     
     func getMangasBySearch(prePath: PrePath = .list,by: APIListEndpoint) async throws -> [Manga]{
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [MisMangaDTO].self).compactMap{ $0.toManga }
+        try getJson(url: Bundle.main.url(forResource: "mangaBeginPreview", withExtension: "json")!, type: [MisMangaDTO].self).compactMap{ $0.toManga }
     }
     
     func getMangaById(prePath: PrePath = .list,by: APIListEndpoint) async throws -> Manga?{
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: MisMangaDTO.self).toManga
+        try getJson(url: Bundle.main.url(forResource: "mangaIdPreview", withExtension: "json")!, type: MisMangaDTO.self).toManga
     }
     
     func getMangasCustom(prePath: PrePath, by: APIListEndpoint, body: CustomSearch) async throws -> [Manga]{
@@ -27,12 +27,18 @@ struct NetworkTest: DataRepository{
     }
     
     func getListBy(by: APIListEndpoint) async throws -> [String]{
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [String].self)
+        try getJson(url: Bundle.main.url(forResource: "genrePreview", withExtension: "json")!, type: [String].self)
     }
     
     func getListAuthor(by: APIListEndpoint) async throws -> [String]{
-        try getJson(url: Bundle.main.url(forResource: "mangasPreview", withExtension: "json")!, type: [Author].self).compactMap{
+        try getJson(url: Bundle.main.url(forResource: "genrePreview", withExtension: "json")!, type: [Author].self).compactMap{
             $0.toString
+        }
+    }
+    
+    func getCharacters(id: String) async throws -> [CharacterModel]{
+        try getJson(url: Bundle.main.url(forResource: "charactersPreview", withExtension: "json")!, type: CharacterDTO.self).data.compactMap{
+            $0.toCharacter
         }
     }
     
