@@ -45,17 +45,12 @@ final class MangasVM {
                     custom: CustomSearch? = nil) async {
         
         if let current = currentBy{
-            print(current.path, by.path)
             if current.path != by.path{
-                print(current.path)
                 currentBy = by
             }
         }else{
             currentBy = by
         }
-        /*if currentBy?.path != by.path {
-            currentBy = by
-        }*/
         self.page = 1
         self.mangas = []
         self.loading = true
