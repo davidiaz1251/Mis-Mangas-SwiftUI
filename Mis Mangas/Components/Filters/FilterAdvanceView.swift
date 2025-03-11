@@ -56,6 +56,8 @@ struct FilterAdvanceView: View {
             }
         }
         .sheet(isPresented: $showFilters) {
+            vm.dismissSheetFilter()
+        } content: {
             FiltersSheetView(
                 selectedGenre: $vm.selectedGenre,
                 selectedTheme: $vm.selectedTheme,

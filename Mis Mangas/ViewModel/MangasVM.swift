@@ -37,9 +37,6 @@ final class MangasVM {
     
     init(network: DataRepository = Network()) {
         self.network = network
-        Task{
-            await self.getMangaBy(by: .bestMangas)
-        }
     }
     
     func getMangaBy(prePath: PrePath = .list,
@@ -47,9 +44,18 @@ final class MangasVM {
                     fetcher: SearchBy? = nil,
                     custom: CustomSearch? = nil) async {
         
-        if currentBy?.path != by.path {
+        if let current = currentBy{
+            print(current.path, by.path)
+            if current.path != by.path{
+                print(current.path)
+                currentBy = by
+            }
+        }else{
             currentBy = by
         }
+        /*if currentBy?.path != by.path {
+            currentBy = by
+        }*/
         self.page = 1
         self.mangas = []
         self.loading = true
@@ -91,7 +97,6 @@ final class MangasVM {
             self.page += 1
             let mangasBy = try await network.getMangasBy(prePath: prePath, by: by, page: String(self.page), per: String(self.per))
             self.mangas += mangasBy
-            print(mangas.count)
         }catch{
             print("Page", self.page)
             self.errorMsg = error.localizedDescription
@@ -119,8 +124,6 @@ final class MangasVM {
         }
     }
     
-    
-    
     func resetFilters() {
         selectedGenre = .all
         selectedTheme = .all
@@ -128,6 +131,11 @@ final class MangasVM {
         selectedStatus = .all
         selectedSearchBy = .title
         minRating = 0
+    }
+    
+    func dismissSheetFilter(){
+        self.searchText = ""
+        self.mangas = []
     }
     
     private func searchMangas() {
