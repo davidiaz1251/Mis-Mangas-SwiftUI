@@ -41,9 +41,6 @@ struct SavedMangasList: View {
                             .foregroundStyle(.white)
                         }
                         .scrollTargetLayout()
-                        .onAppear{
-                            print("en el componente",manga.url)
-                        }
                 }
             }
         }

@@ -19,17 +19,13 @@ let apiCharacterImages = URL(string: "https://api.jikan.moe/v4/manga")!
 
 extension URL{
     static func getListMangas(prePath: PrePath = .list,endPoint: APIListEndpoint, page: String = "1", per: String = "10") -> URL{
-        print(api.appending(path: prePath.rawValue ).appending(path: endPoint.path).appending(queryItems:
-                                                                                                [.querys("page", page),
-                                                                                                 .querys("per", per)]))
-         return api.appending(path: prePath.rawValue ).appending(path: endPoint.path).appending(queryItems:
+        api.appending(path: prePath.rawValue ).appending(path: endPoint.path).appending(queryItems:
                                                                                 [.querys("page", page),
                                                                                  .querys("per", per)])
     }
     
     static func getCharacterImages(id: String) -> URL{
-        print(apiCharacterImages.appending(path: id ).appending(path: "characters"))
-        return apiCharacterImages.appending(path: id ).appending(path: "characters")
+        apiCharacterImages.appending(path: id ).appending(path: "characters")
     }
     
 }
