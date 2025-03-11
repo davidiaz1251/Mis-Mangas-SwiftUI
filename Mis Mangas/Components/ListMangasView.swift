@@ -14,9 +14,10 @@ struct ListMangasView: View {
             NavigationLink(value: manga) {
                 HStack{
                     ImageView(url: manga.mainPicture)
-                        .scaledToFit()
-                        .frame(height: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .scaledToFill()
+                        .frame(width: 100,height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        
                     VStack(alignment: .leading){
                         Text(manga.title)
                         Text(manga.titleJapanese)
@@ -44,5 +45,6 @@ struct ListMangasView: View {
 #Preview{
     NavigationStack{
         ListMangasView(mangas: [NetworkTest.preview])
+        Spacer()
     }
 }

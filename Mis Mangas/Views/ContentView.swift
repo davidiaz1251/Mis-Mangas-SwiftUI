@@ -6,24 +6,35 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @Environment(MangasVM.self) private var vm: MangasVM
+    @Environment(\.modelContext) private var modelContext
+    @Query private var mangasSaved: [MangasDB]
+    
     var body: some View {
         NavigationStack{
             ScrollView(showsIndicators: false){
-                Section{
-                    SavedMangasList()
-                } header:{
-                    Text("Tus Mangas")
-                        .font(.title2)
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                if !mangasSaved.isEmpty{
+                    Section{
+                        SavedMangasList(mangaSaved: mangasSaved)
+                            .padding(.bottom)
+                    } header:{
+                        Text("Tus Mangas")
+                            .font(.title2)
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
-                Section{
-                    ListMangasView(mangas: vm.mangas)
-                }
-                .padding(.top)
+                LoadingView(content: {
+                    Section{
+                        ListMangasView(mangas: vm.mangas)
+                    }
+                }, data: !vm.mangas.isEmpty, loading: vm.loading)
+            }
+            .onAppear{
+                print("base", mangasSaved)
             }
             .padding()
             .navigationTitle("Best Mangas")
@@ -33,8 +44,6 @@ struct ContentView: View {
         }
     }
 }
-/*.scrollTargetLayout()
- .scrollTargetBehavior(.viewAligned)*/
 #Preview {
     ContentView()
         .environment(MangasVM(network: NetworkTest()))

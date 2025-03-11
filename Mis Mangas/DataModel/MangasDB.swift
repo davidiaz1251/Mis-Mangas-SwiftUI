@@ -9,22 +9,22 @@ import Foundation
 import SwiftData
 
 @Model
-final class mangasDB{
-    var id: String
+final class MangasDB{
+    @Attribute(.unique) var id: Int
     var title: String
-    var url: URL
+    var url: String
     var currentVolume: Int
     var volumesPurchased: Int
     var totalVolumes: Int
-    var compvareCollection: Bool
+    var isCompleteCollection: Bool
     
-    init(id: String, title: String, url: URL, currentVolume: Int, volumesPurchased: Int, totalVolumes: Int, compvareCollection: Bool) {
+    init(id: Int, title: String, url: URL, currentVolume: Int, volumesPurchased: Int, totalVolumes: Int, compvareCollection: Bool) {
         self.id = id
         self.title = title
-        self.url = url
+        self.url = url.absoluteString
         self.currentVolume = currentVolume
         self.volumesPurchased = volumesPurchased
         self.totalVolumes = totalVolumes
-        self.compvareCollection = compvareCollection
+        self.isCompleteCollection = compvareCollection
     }
 }

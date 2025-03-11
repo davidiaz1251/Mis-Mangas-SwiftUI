@@ -24,6 +24,7 @@ struct CharactersView: View {
                                     VStack{
                                         Spacer()
                                         Text(character.name)
+                                            .font(.subheadline)
                                             .frame(maxWidth: .infinity)
                                             .lineLimit(1)
                                             .background(.ultraThinMaterial)

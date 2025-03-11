@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Mis_MangasApp: App {
@@ -27,8 +28,14 @@ struct Mis_MangasApp: App {
                     .tabItem {
                         Label("Favorite", systemImage: "heart")
                     }
+                
+                Text("Account")
+                    .tabItem {
+                        Label("Account", systemImage: "person.crop.circle")
+                    }
             }
             .environment(vm)
         }
+        .modelContainer(for: MangasDB.self)
     }
 }

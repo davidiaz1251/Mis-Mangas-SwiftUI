@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SavedMangasList: View {
-    let url: URL = URL(string: "https://cdn.myanimelist.net/images/manga/3/161939l.jpg")!
+    let mangaSaved: [MangasDB]
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false){
             HStack(spacing: 16){
-                ForEach(0..<10) { index in
-                    ImageView(url: url)
-                        .scaledToFit()
-                        .frame(width: 180)
+                ForEach(mangaSaved) { manga in
+                    ImageView(url: URL(string: manga.url))
+                        .scaledToFill()
+                        .frame(width:130, height: 200)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .overlay {
                             LinearGradient(
@@ -26,15 +26,24 @@ struct SavedMangasList: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             VStack {
                                 Spacer()
-                                Text("Petshop of Horror")
-                                    .font(.headline)
-                                Text("Capitulo 30 / 300")
-                                    .font(.callout)
-                                    .padding(.bottom)
+                                VStack{
+                                    Text(manga.title)
+                                        .font(.subheadline)
+                                        .lineLimit(1)
+                                    Text("Capitulo \(manga.currentVolume)/ \(manga.totalVolumes)")
+                                        .font(.caption2)
+                                        .padding(.bottom, 8)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .background(.ultraThinMaterial)
                             }
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .foregroundStyle(.white)
                         }
                         .scrollTargetLayout()
+                        .onAppear{
+                            print("en el componente",manga.url)
+                        }
                 }
             }
         }
@@ -43,5 +52,6 @@ struct SavedMangasList: View {
 }
 
 #Preview{
-    SavedMangasList()
+    SavedMangasList(mangaSaved: [MangasDB(id: 42, title: "Dragon Ball", url: URL(string: "https://cdn.myanimelist.net/images/manga/1/267793l.jpg")!, currentVolume: 1, volumesPurchased: 1, totalVolumes: 2, compvareCollection: true)])
+    Spacer()
 }

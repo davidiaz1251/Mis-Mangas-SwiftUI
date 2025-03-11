@@ -6,11 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailMangaView: View {
     @State var manga: Manga
     @State private var favorite = false
     @State private var tab: Tabs = .resumen
+    @State private var showSheet = false
+    @State private var showConfirmation = false
+    @Environment(\.modelContext) private var modelContext
+    @Query private var mangasFavorite: [MangasDB]
+    
+    init(manga: Manga) {
+        self.manga = manga
+        _mangasFavorite = Query(filter: #Predicate<MangasDB> { $0.id == manga.id })
+    }
+    
     var body: some View {
         VStack(spacing: 0){
             ZStack{
@@ -69,7 +80,11 @@ struct DetailMangaView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button{
-                    favorite.toggle()
+                    if favorite {
+                        showConfirmation.toggle()
+                    } else {
+                        showSheet.toggle()
+                    }
                 }label:{
                     Image(systemName: "heart")
                         .foregroundStyle(.white)
@@ -78,6 +93,24 @@ struct DetailMangaView: View {
                 }
                 
             }
+        }
+        .sheet(isPresented: $showSheet) {
+            FavoriteSheetView(manga: manga, favorite: $favorite)
+        }
+        .confirmationDialog("¿Eliminar manga?", isPresented: $showConfirmation) {
+            Button("Eliminar", role: .destructive) {
+                if let mangaToDelete = mangasFavorite.first {
+                    modelContext.delete(mangaToDelete)
+                    try? modelContext.save()
+                    favorite = false
+                }
+            }
+            Button("Cancelar", role: .cancel) {
+                showConfirmation = false
+            }
+        }
+        .onAppear{
+            self.favorite = !mangasFavorite.isEmpty
         }
     }
 }
@@ -96,7 +129,7 @@ enum Tabs: String, CaseIterable {
 }
 
 
-#Preview {
+#Preview(traits: .sampleData) {
     NavigationStack{
         DetailMangaView(manga: NetworkTest.preview)
     }
