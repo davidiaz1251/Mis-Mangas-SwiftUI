@@ -32,9 +32,11 @@ struct ContentView: View {
                         ListMangasView(mangas: vm.mangas)
                     }
                 }, data: !vm.mangas.isEmpty, loading: vm.loading)
-            }
-            .onAppear{
-                print("base", mangasSaved)
+                .task {
+                    if vm.currentBy != .bestMangas{
+                        await vm.getMangaBy(by: .bestMangas)
+                    }
+                }
             }
             .padding()
             .navigationTitle("Best Mangas")
