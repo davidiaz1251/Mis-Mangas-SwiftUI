@@ -2,7 +2,7 @@
 //  ListMangasView.swift
 //  Mis Mangas
 //
-//  Created by Alex Guerrero on 1/3/25.
+//  Created by luis david diaz ramirez on 1/3/25.
 //
 
 import SwiftUI

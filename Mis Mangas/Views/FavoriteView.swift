@@ -2,14 +2,6 @@
 //  FavoriteView.swift
 //  Mis Mangas
 //
-//  Created by Alex Guerrero on 22/3/25.
-//
-
-
-//
-//  FavoriteView.swift
-//  Mis Mangas
-//
 //  Created by luis david diaz ramirez on 11/3/25.
 //
 

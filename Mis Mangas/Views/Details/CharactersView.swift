@@ -2,7 +2,7 @@
 //  CharactersView.swift
 //  Mis Mangas
 //
-//  Created by Alex Guerrero on 2/3/25.
+//  Created by luis david diaz ramirez on 2/3/25.
 //
 
 import SwiftUI

@@ -1,5 +1,5 @@
 //
-//  your.swift
+//  SavedMangasList.swift
 //  Mis Mangas
 //
 //  Created by luis david diaz ramirez on 1/3/25.

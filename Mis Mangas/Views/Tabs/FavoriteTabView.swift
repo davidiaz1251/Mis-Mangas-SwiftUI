@@ -2,7 +2,7 @@
 //  FavoriteTabView.swift
 //  Mis Mangas
 //
-//  Created by Alex Guerrero on 22/3/25.
+//  Created by luis david diaz ramirez on 22/3/25.
 //
 
 
