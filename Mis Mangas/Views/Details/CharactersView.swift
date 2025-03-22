@@ -10,7 +10,10 @@ import SwiftUI
 struct CharactersView: View {
     @Environment(MangasVM.self) private var vm: MangasVM
     let id: Int
-    private let gridItems = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    private var gridItems: [GridItem] {
+        let columns: Int = UIDevice.current.userInterfaceIdiom == .pad ? 5 : 3
+        return Array(repeating: GridItem(.flexible()), count: columns)
+    }
     var body: some View {
         LoadingView(content: {
             ScrollView {
