@@ -9,20 +9,20 @@ import Foundation
 import SwiftData
 
 @Model
-final class MangasDB{
+final class MangasDB: Hashable{
     @Attribute(.unique) var id: Int
     var title: String
     var url: String
-    var currentVolume: Int
+    var currentChapters: Int
     var volumesPurchased: Int
     var totalVolumes: Int
     var isCompleteCollection: Bool
     
-    init(id: Int, title: String, url: URL, currentVolume: Int, volumesPurchased: Int, totalVolumes: Int, compvareCollection: Bool) {
+    init(id: Int, title: String, url: URL, currentChapters: Int, volumesPurchased: Int, totalVolumes: Int, compvareCollection: Bool) {
         self.id = id
         self.title = title
         self.url = url.absoluteString
-        self.currentVolume = currentVolume
+        self.currentChapters = currentChapters
         self.volumesPurchased = volumesPurchased
         self.totalVolumes = totalVolumes
         self.isCompleteCollection = compvareCollection

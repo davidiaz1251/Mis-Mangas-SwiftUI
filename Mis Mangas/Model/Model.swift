@@ -124,17 +124,6 @@ enum DemographicModel: String, CaseIterable, Codable, Identifiable {
     var id: Self { self }
 }
 
-enum MangaStatus: String, CaseIterable, Codable, Identifiable {
-    // coregir para el filtro
-    case currentlyPublishing = "Currently Publishing"
-    case finished = "Finished"
-    case onHiatus = "On Hiatus"
-    case discontinued = "Discontinued"
-    case all = "All"
-    
-    var id: Self { self }
-}
-
 enum SearchBy: String, CaseIterable, Codable, Identifiable {
     case title = "Título"
     case firstName = "Nombre del Autor"

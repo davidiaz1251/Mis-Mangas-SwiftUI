@@ -10,7 +10,6 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(MangasVM.self) private var vm: MangasVM
-    @Environment(\.modelContext) private var modelContext
     @Query private var mangasSaved: [MangasDB]
     
     var body: some View {
@@ -33,7 +32,7 @@ struct ContentView: View {
                     }
                 }, data: !vm.mangas.isEmpty, loading: vm.loading)
                 .task {
-                    if vm.currentBy != .bestMangas{
+                    if vm.currentBy != .bestMangas || vm.mangas.isEmpty{
                         await vm.getMangaBy(by: .bestMangas)
                     }
                 }
@@ -42,6 +41,11 @@ struct ContentView: View {
             .navigationTitle("Best Mangas")
             .navigationDestination(for: Manga.self) { manga in
                 DetailMangaView(manga: manga)
+            }
+            .navigationDestination(for: MangasDB.self) { mangaDB in
+                FavoriteView(id: mangaDB.id)
+                    .navigationTitle("Favoritos")
+                    .navigationBarTitleDisplayMode(.inline)
             }
         }
     }

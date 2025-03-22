@@ -15,7 +15,6 @@ struct FilterAdvanceView: View {
     let genres: [GenreModel] = GenreModel.allCases
     let themes: [ThemeModel] = ThemeModel.allCases
     let demographics: [DemographicModel] = DemographicModel.allCases
-    let status: [MangaStatus] = MangaStatus.allCases
     let searchBy: [SearchBy] = SearchBy.allCases
     
     var body: some View {
@@ -62,15 +61,12 @@ struct FilterAdvanceView: View {
                 selectedGenre: $vm.selectedGenre,
                 selectedTheme: $vm.selectedTheme,
                 selectedDemographic: $vm.selectedDemographic,
-                selectedStatus: $vm.selectedStatus,
                 selectedBy: $vm.selectedSearchBy,
                 contain: $vm.selectContain,
                 minRating: $vm.minRating,
                 genres: genres,
                 themes: themes,
-                demographics: demographics,
-                status: status,
-                searchBy: searchBy,
+                demographics: demographics,                searchBy: searchBy,
                 reset: vm.resetFilters
             )
             .presentationDetents([.large])

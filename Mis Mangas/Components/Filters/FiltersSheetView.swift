@@ -12,7 +12,6 @@ struct FiltersSheetView: View {
     @Binding var selectedGenre: GenreModel
     @Binding var selectedTheme: ThemeModel
     @Binding var selectedDemographic: DemographicModel
-    @Binding var selectedStatus: MangaStatus
     @Binding var selectedBy: SearchBy
     @Binding var contain: Bool
     @Binding var minRating: Double
@@ -20,7 +19,6 @@ struct FiltersSheetView: View {
     let genres: [GenreModel]
     let themes: [ThemeModel]
     let demographics: [DemographicModel]
-    let status: [MangaStatus]
     let searchBy: [SearchBy]
     let reset: () -> Void
     
@@ -82,18 +80,6 @@ struct FiltersSheetView: View {
                         Text("Contenga")
                     }
                 }
-                
-                Section {
-                    Picker("Estado", selection: $selectedStatus) {
-                        ForEach(MangaStatus.allCases) { status in
-                            Text(status.rawValue).tag(status)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                } header: {
-                    Text("Estado")
-                }
-                
                 
                 Section {
                     Stepper("Puntuación mínima: \(minRating.formatted(withDecimals: 0))", value: $minRating, in: 0...10)

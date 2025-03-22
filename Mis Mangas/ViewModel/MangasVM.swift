@@ -18,7 +18,6 @@ final class MangasVM {
     var errorMsg = ""
     
     var selectedGenre: GenreModel = .all
-    var selectedStatus: MangaStatus = .all
     var selectedTheme: ThemeModel = .all
     var selectedDemographic: DemographicModel = .all
     var selectedSearchBy: SearchBy = .title
@@ -78,7 +77,7 @@ final class MangasVM {
                 mangasBy = try await network.getMangasBySearch(prePath: prePath, by: by)
             }
             
-            self.mangas = mangasBy.filteredBy(status: selectedStatus, minRating: minRating)
+            self.mangas = mangasBy.filteredBy(minRating: minRating)
         } catch {
             self.errorMsg = error.localizedDescription
             self.mangas = []
@@ -123,7 +122,6 @@ final class MangasVM {
         selectedGenre = .all
         selectedTheme = .all
         selectedDemographic = .all
-        selectedStatus = .all
         selectedSearchBy = .title
         minRating = 0
     }

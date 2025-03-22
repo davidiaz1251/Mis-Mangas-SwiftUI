@@ -24,14 +24,9 @@ struct Mis_MangasApp: App {
                         Label("Search", systemImage: "magnifyingglass")
                     }
                 
-                Text("Favorito")
+                FavoriteTabView()
                     .tabItem {
                         Label("Favorite", systemImage: "heart")
-                    }
-                
-                Text("Account")
-                    .tabItem {
-                        Label("Account", systemImage: "person.crop.circle")
                     }
             }
             .environment(vm)

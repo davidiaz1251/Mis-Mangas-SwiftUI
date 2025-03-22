@@ -8,11 +8,8 @@
 import SwiftUI
 
 extension Array where Element == Manga {
-    func filteredBy(status: MangaStatus, minRating: Double) -> [Manga] {
+    func filteredBy(minRating: Double) -> [Manga] {
         var filtered = self
-        if status != .all {
-            filtered = filtered.filter { $0.status == status.rawValue }
-        }
         if minRating > 0 {
             filtered = filtered.filter { $0.score >= minRating }
         }

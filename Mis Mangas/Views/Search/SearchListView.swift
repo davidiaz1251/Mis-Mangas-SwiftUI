@@ -33,6 +33,21 @@ struct SearchListView: View {
                                     .scaledToFit()
                                     .frame(height: 150)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay {
+                                        VStack {
+                                            Spacer()
+                                            VStack{
+                                                Text(manga.title)
+                                                    .font(.subheadline)
+                                                    .lineLimit(1)
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .background(.ultraThinMaterial)
+                                        }
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .foregroundStyle(.white)
+                                    }
+                                
                             }
                         }
                         .onAppear {
@@ -48,7 +63,7 @@ struct SearchListView: View {
             }
         }, data: !vm.mangas.isEmpty , loading: vm.loading)
         .task {
-            if vm.currentBy != category{
+            if vm.currentBy != category || vm.mangas.isEmpty{
                 await vm.getMangaBy(by: category)
             }
         }

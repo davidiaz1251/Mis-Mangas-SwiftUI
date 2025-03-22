@@ -14,7 +14,7 @@ struct FavoriteSheetView: View {
     
     let manga: Manga
     
-    @State private var currentVolume: Int = 1
+    @State private var currentChapters: Int = 1
     @State private var volumesPurchased: Int = 0
     @State private var compvareCollection: Bool = false
     
@@ -26,11 +26,19 @@ struct FavoriteSheetView: View {
             Form {
                 Section(header: Text("Información del Manga")) {
                     
-                    Stepper("Volumen actual: \(currentVolume)", value: $currentVolume, in: 1...(manga.volumes ?? 99))
+                    Stepper("Capitulo actual: \(currentChapters)", value: $currentChapters, in: 1...(manga.chapters ?? 99))
                     
                     Stepper("Volúmenes comprados: \(volumesPurchased)", value: $volumesPurchased, in: 0...(manga.volumes ?? 99))
+                        .onChange(of: volumesPurchased) { oldValue, newValue in
+                            compvareCollection = newValue == manga.volumes ? true : false
+                        }
                     
                     Toggle("Colección completa", isOn: $compvareCollection)
+                        .onChange(of: compvareCollection) { oldValue, newValue in
+                            if newValue {
+                                volumesPurchased = manga.volumes ?? 0
+                            }
+                        }
                 }
             }
             .navigationTitle("Nuevo Manga")
@@ -57,7 +65,7 @@ struct FavoriteSheetView: View {
             id: manga.id,
             title: manga.title,
             url: mainPicture,
-            currentVolume: currentVolume,
+            currentChapters: currentChapters,
             volumesPurchased: volumesPurchased,
             totalVolumes: manga.volumes ?? 0,
             compvareCollection: compvareCollection

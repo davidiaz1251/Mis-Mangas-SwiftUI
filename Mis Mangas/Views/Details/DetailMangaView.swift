@@ -101,8 +101,12 @@ struct DetailMangaView: View {
             Button("Eliminar", role: .destructive) {
                 if let mangaToDelete = mangasFavorite.first {
                     modelContext.delete(mangaToDelete)
-                    try? modelContext.save()
-                    favorite = false
+                    do{
+                        try modelContext.save()
+                        favorite = false
+                    }catch{
+                        print("Error al guardar en SwiftData: \(error)")
+                    }
                 }
             }
             Button("Cancelar", role: .cancel) {
