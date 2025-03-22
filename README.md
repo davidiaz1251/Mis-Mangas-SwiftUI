@@ -76,10 +76,9 @@ El proyecto está diseñado para evolucionar hacia:
 ## ✨ Próximos pasos
 
 1. Implementar autenticación de usuarios con persistencia de tokens en Keychain.
-2. Añadir filtros avanzados para la búsqueda de mangas.
-3. Sincronización completa de la colección en la nube.
-4. Soporte multiplataforma (macOS, Apple Watch).
-5. Widgets con **WidgetKit**.
+2. Sincronización completa de la colección en la nube.
+3. Soporte multiplataforma (macOS, Apple Watch).
+4. Widgets con **WidgetKit**.
 
 ---
 
