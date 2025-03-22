@@ -17,7 +17,7 @@ struct SearchListView: View {
         case .bestMangas:
             "Por mejores mangas"
         default:
-            "Por"
+            "Mangas"
         }
     }
     private let gridItems = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]

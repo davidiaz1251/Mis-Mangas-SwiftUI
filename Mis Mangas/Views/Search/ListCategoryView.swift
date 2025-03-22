@@ -21,7 +21,7 @@ struct ListCategoryView: View {
         case .authors:
             "Por autor"
         default:
-            "Por"
+            "Mangas"
         }
     }
     
@@ -29,11 +29,18 @@ struct ListCategoryView: View {
         LoadingView(content: {
             List(vm.listCategory, id: \.self) { value in
                 NavigationLink(value: endpoint(for: value)) {
-                    Text(value)
+                    if category == .authors, let match = value.firstMatch(of: /^(.*?)\s*&/){
+                        Text(String(match.1))
+                    }else{
+                        Text(value)
+                    }
                 }
             }
             .listStyle(.plain)
         }, data: !vm.listCategory.isEmpty, loading: vm.loading)
+        .onAppear{
+            
+        }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .task {
@@ -44,15 +51,19 @@ struct ListCategoryView: View {
     private func endpoint(for value: String) -> APIListEndpoint {
         switch category {
         case .genres:
-            .mangaByGenre(value)
+            return .mangaByGenre(value)
         case .demographics:
-            .mangaByDemographic(value)
+            return .mangaByDemographic(value)
         case .themes:
-            .mangaByTheme(value)
+            return .mangaByTheme(value)
         case .authors:
-            .mangaByAuthor(value)
+            if let match = value.firstMatch(of: /(?i)\b(?=[A-Z0-9-]*-[A-Z0-9-]+)[A-Z0-9-]+\b/) {
+                print(match.0)
+                return .mangaByAuthor("\(match.0)")
+            }
+            return .mangaByAuthor("")
         default:
-            category
+            return category
         }
     }
 }

@@ -103,6 +103,7 @@
 		E980A3A72D8EDB5F00D67282 /* FavoriteTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTabView.swift; sourceTree = "<group>"; };
 		E980A3AD2D8EE20100D67282 /* MangaSavedRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaSavedRow.swift; sourceTree = "<group>"; };
 		E980A3AF2D8EE41F00D67282 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		E980A3B12D8EE67F00D67282 /* Mis-Mangas-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Mis-Mangas-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E99093F92D4B634400FC2AEE /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		E9F9EF362D76520600A65029 /* MangasDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangasDB.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,6 +153,7 @@
 		635C355F2D05033A00A4A159 /* Mis Mangas */ = {
 			isa = PBXGroup;
 			children = (
+				E980A3B12D8EE67F00D67282 /* Mis-Mangas-Info.plist */,
 				63B058D52D3D773300625454 /* Views */,
 				635EC4F72D358FD0001B421C /* Components */,
 				635EC4EE2D2973E4001B421C /* ViewModel */,
@@ -546,9 +548,9 @@
 				DEVELOPMENT_TEAM = U9NYHS92D5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Mis-Mangas-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -576,9 +578,9 @@
 				DEVELOPMENT_TEAM = U9NYHS92D5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Mis-Mangas-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;

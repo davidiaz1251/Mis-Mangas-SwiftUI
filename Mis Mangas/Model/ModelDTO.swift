@@ -105,6 +105,6 @@ struct CustomSearch: Codable {
 
 extension Author{
     var toString: String{
-        "\(firstName) \(lastName)"
+        "\(firstName) \(lastName) &\(id)"
     }
 }
