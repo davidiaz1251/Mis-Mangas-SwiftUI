@@ -152,16 +152,21 @@ struct FiltersSheetView: View {
     }
     
     private func toggleSelection<T: Equatable>(item: T, in array: inout [T], allValue: T) {
-        if let index = array.firstIndex(of: item) {
-            array.remove(at: index)
-            if array.isEmpty {
-                array.append(allValue)
-            }
+        if item == allValue {
+            array = [allValue]
         } else {
-            if let allIndex = array.firstIndex(of: allValue) {
-                array.remove(at: allIndex)
+            if let index = array.firstIndex(of: item) {
+                array.remove(at: index)
+                if array.isEmpty {
+                    array = [allValue]
+                }
+            } else {
+                if let allIndex = array.firstIndex(of: allValue) {
+                    array.remove(at: allIndex)
+                }
+                array.append(item)
             }
-            array.append(item)
         }
     }
+
 }
