@@ -1,6 +1,12 @@
 name: Xcode - Build and Analyze
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -13,12 +19,22 @@ jobs:
     - name: Set up Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16.2.0'  # Asegúrese de que esta versión sea compatible con su proyecto
+        xcode-version: '16.0.2'
 
-    - name: Build with xcodebuild
+    - name: Install dependencies
       run: |
-        xcodebuild -project 'Mis Mangas.xcodeproj' -scheme 'Mis Mangas' build
+        brew install cocoapods
+        pod install
 
-    - name: JSON validation
+    - name: Set up Provisioning Profile
       run: |
-        ruby -e "require 'json'; begin; data = JSON.parse(File.read('path/to/your/json/file.json')); rescue JSON::ParserError => e; puts 'JSON parsing error: #{e.message}'; end"
+        echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" > /tmp/AuthKey.p8
+        xcrun altool --list-profiles -u ${{ secrets.APP_STORE_CONNECT_USERNAME }} -p ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+        PROFILE_UUID=$(xcrun altool --list-profiles -u ${{ secrets.APP_STORE_CONNECT_USERNAME }} -p ${{ secrets.APP_STORE_CONNECT_PASSWORD }} | grep 'UUID' | head -n 1 | awk '{print $2}')
+        echo "PROFILE_UUID=${PROFILE_UUID}" > $GITHUB_ENV
+
+    - name: Build and Analyze
+      run: |
+        xcodebuild -project "Mis Mangas.xcodeproj" -scheme "Mis Mangas" -sdk iphoneos -destination 'platform=iOS Simulator,name=iPhone 12' CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE_SPECIFIER=$PROFILE_UUID
+      env:
+        PROFILE_UUID: ${{ env.PROFILE_UUID }}
