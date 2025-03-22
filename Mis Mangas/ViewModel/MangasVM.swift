@@ -14,8 +14,6 @@ final class MangasVM {
     var listCategory: [String] = []
     var characters: [CharacterModel] = []
     
-    var showAlert = false
-    var errorMsg = ""
     
     var selectedGenre: [GenreModel] = [.all]
     var selectedTheme: [ThemeModel] = [.all]
@@ -79,10 +77,8 @@ final class MangasVM {
             
             self.mangas = mangasBy.filteredBy(minRating: minRating)
         } catch {
-            self.errorMsg = error.localizedDescription
             self.mangas = []
             print(error.localizedDescription)
-            showAlert.toggle()
         }
     }
     
@@ -92,8 +88,7 @@ final class MangasVM {
             let mangasBy = try await network.getMangasBy(prePath: prePath, by: by, page: String(self.page), per: String(self.per))
             self.mangas += mangasBy
         }catch{
-            self.errorMsg = error.localizedDescription
-            showAlert.toggle()
+            print(error.localizedDescription)
         }
         
     }
@@ -112,8 +107,6 @@ final class MangasVM {
             }
         } catch {
             print("Error al cargar la lista para \(endpoint): \(error)")
-            self.errorMsg = error.localizedDescription
-            showAlert.toggle()
         }
     }
     
