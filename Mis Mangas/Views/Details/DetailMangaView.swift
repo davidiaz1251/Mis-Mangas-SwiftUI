@@ -17,6 +17,10 @@ struct DetailMangaView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var mangasFavorite: [MangasDB]
     
+    private var visibility : Visibility {
+        UIDevice.current.userInterfaceIdiom == .pad ? .visible : .hidden
+    }
+    
     init(manga: Manga) {
         self.manga = manga
         _mangasFavorite = Query(filter: #Predicate<MangasDB> { $0.id == manga.id })
@@ -60,6 +64,22 @@ struct DetailMangaView: View {
                 .padding(.horizontal)
                 .padding(.top, safeAreaTop)
             }
+            .confirmationDialog("¿Eliminar manga?", isPresented: $showConfirmation, titleVisibility: visibility) {
+                Button("Eliminar", role: .destructive) {
+                    if let mangaToDelete = mangasFavorite.first {
+                        modelContext.delete(mangaToDelete)
+                        do{
+                            try modelContext.save()
+                            favorite = false
+                        }catch{
+                            print("Error al guardar en SwiftData: \(error)")
+                        }
+                    }
+                }
+                Button("Cancelar", role: .cancel) {
+                    showConfirmation = false
+                }
+            }
             
             Picker("Tabs", selection: $tab) {
                 ForEach(Tabs.allCases, id: \.self) { tab in
@@ -67,6 +87,7 @@ struct DetailMangaView: View {
                 }
             }
             .pickerStyle(.segmented)
+            
             
             switch tab{
             case .resumen:
@@ -96,22 +117,6 @@ struct DetailMangaView: View {
         }
         .sheet(isPresented: $showSheet) {
             FavoriteSheetView(manga: manga, favorite: $favorite)
-        }
-        .confirmationDialog("¿Eliminar manga?", isPresented: $showConfirmation) {
-            Button("Eliminar", role: .destructive) {
-                if let mangaToDelete = mangasFavorite.first {
-                    modelContext.delete(mangaToDelete)
-                    do{
-                        try modelContext.save()
-                        favorite = false
-                    }catch{
-                        print("Error al guardar en SwiftData: \(error)")
-                    }
-                }
-            }
-            Button("Cancelar", role: .cancel) {
-                showConfirmation = false
-            }
         }
         .onAppear{
             self.favorite = !mangasFavorite.isEmpty

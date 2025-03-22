@@ -24,6 +24,8 @@ struct FilterAdvanceView: View {
                 HStack {
                     TextField("Buscar por \(vm.selectedSearchBy.rawValue)", text: $vm.searchText)
                         .textFieldStyle(.roundedBorder)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
                         .focused($searchFieldFocused)
                         .onChange(of: vm.searchText) {
                             vm.search()
