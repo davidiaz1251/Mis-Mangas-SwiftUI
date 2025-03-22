@@ -40,8 +40,8 @@ El proyecto está diseñado para evolucionar hacia:
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/mis-mangas.git
-   cd mis-mangas
+   git clone https://github.com/davidiaz1251/Mis-Mangas-SwiftUI.git
+   cd Mis-Mangas-SwiftUI
    ```
 
 2. Abre el proyecto en Xcode:
@@ -60,7 +60,7 @@ El proyecto está diseñado para evolucionar hacia:
 ## 🌐 Endpoints utilizados
 
 ### API Base
-`https://api.mismangas.com`
+`[Api de ACAcademy](https://mymanga-acacademy-5607149ebe3d.herokuapp.com)`
 
 #### Listados
 - `/list/mangas`: Obtiene mangas paginados.
@@ -70,20 +70,6 @@ El proyecto está diseñado para evolucionar hacia:
 #### Usuarios (para versiones avanzadas)
 - `/users`: Registro y autenticación.
 - `/collection/manga`: Gestión de la colección del usuario.
-
----
-
-## 🗂 Estructura del proyecto
-
-```
-MisMangas/
-├── Models/           # Modelos de datos persistentes con SwiftData
-├── DTOs/             # Modelos para la comunicación con la API
-├── Services/         # Lógica de red (API REST)
-├── ViewModels/       # Lógica reactiva para las vistas
-├── Views/            # Interfaz de usuario en SwiftUI
-└── Utils/            # Extensiones y helpers
-```
 
 ---
 
