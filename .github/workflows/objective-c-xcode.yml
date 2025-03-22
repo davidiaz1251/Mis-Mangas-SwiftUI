@@ -13,7 +13,7 @@ jobs:
     - name: Set up Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16.0'  # Asegúrese de que esta versión sea compatible con su proyecto
+        xcode-version: '16.2.0'  # Asegúrese de que esta versión sea compatible con su proyecto
 
     - name: Build with xcodebuild
       run: |
