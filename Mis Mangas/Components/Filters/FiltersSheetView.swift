@@ -129,10 +129,12 @@ struct FiltersSheetView: View {
                     }
                 }
                 
-                Section {
-                    Stepper("Puntuación mínima: \(minRating.formatted(withDecimals: 0))", value: $minRating, in: 0...10)
-                } header:{
-                    Text("Puntuación")
+                if selectedBy != .idManga{
+                    Section {
+                        Stepper("Puntuación mínima: \(minRating.formatted(withDecimals: 0))", value: $minRating, in: 0...10)
+                    } header:{
+                        Text("Puntuación")
+                    }
                 }
             }
             .navigationTitle("Filtros")
