@@ -50,7 +50,7 @@ struct FavoriteView: View {
             }
             List{
                 ForEach(mangasSaved){ manga in
-                    MangaRowSaved(manga: manga)
+                    MangaSavedRow(manga: manga)
                         .listRowSeparator(.hidden)
                 }
                 .onDelete { indexSet in

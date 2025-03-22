@@ -32,7 +32,7 @@ struct MangaSavedRow: View {
                     savedData()
                 }
                 
-                Stepper(value: $manga.volumesPurchased, in: 0...manga.totalVolumes) {
+                Stepper(value: $manga.volumesPurchased, in: 0...(manga.totalVolumes != 0 ? manga.totalVolumes : 99)) {
                     Text("Volumenes comprados: \(manga.volumesPurchased)")
                 }
                 .onChange(of: manga.volumesPurchased) { oldValue, newValue in
@@ -42,7 +42,7 @@ struct MangaSavedRow: View {
                 
                 Toggle("Colección completa", isOn: $manga.isCompleteCollection)
                     .onChange(of: manga.isCompleteCollection) { oldValue, newValue in
-                        if newValue {
+                        if newValue && manga.totalVolumes != 0{
                             manga.volumesPurchased = manga.totalVolumes
                         }
                         savedData()
@@ -65,3 +65,4 @@ struct MangaSavedRow: View {
     }
     
 }
+

@@ -27,11 +27,11 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-2" translatesAutoresizingMaskIntoConstraints="NO" id="hjM-Z6-oke">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-2" translatesAutoresizingMaskIntoConstraints="NO" id="yp7-Ho-Zrb">
                                 <rect key="frame" x="76.666666666666686" y="362" width="240" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="Wu7-8i-CNn"/>
-                                    <constraint firstAttribute="width" constant="240" id="nVB-1M-GZJ"/>
+                                    <constraint firstAttribute="width" constant="240" id="ANa-MJ-lNd"/>
+                                    <constraint firstAttribute="height" constant="128" id="dZz-gu-eHO"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -41,11 +41,11 @@
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="GJd-Yh-RWb" secondAttribute="centerX" id="Q3B-4B-g5h"/>
                             <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" symbolic="YES" id="SfN-ll-jLj"/>
+                            <constraint firstItem="yp7-Ho-Zrb" firstAttribute="top" secondItem="GJd-Yh-RWb" secondAttribute="bottom" constant="55.333333333333314" id="WFR-Dx-c6F"/>
                             <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
-                            <constraint firstItem="hjM-Z6-oke" firstAttribute="top" secondItem="GJd-Yh-RWb" secondAttribute="bottom" constant="55.333333333333314" id="e0i-kQ-3Sd"/>
+                            <constraint firstItem="yp7-Ho-Zrb" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="ZGG-we-WgW"/>
                             <constraint firstItem="GJd-Yh-RWb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="1/3" constant="1" id="moa-c2-u7t"/>
-                            <constraint firstItem="hjM-Z6-oke" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="wlP-Lv-Zms"/>
-                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="x7j-FC-K8j"/>
+                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" symbolic="YES" id="x7j-FC-K8j"/>
                         </constraints>
                     </view>
                 </viewController>
