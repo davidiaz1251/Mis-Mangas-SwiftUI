@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FiltersSheetView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedGenre: GenreModel
-    @Binding var selectedTheme: ThemeModel
-    @Binding var selectedDemographic: DemographicModel
+    @Binding var selectedGenre: [GenreModel]
+    @Binding var selectedTheme: [ThemeModel]
+    @Binding var selectedDemographic: [DemographicModel]
     @Binding var selectedBy: SearchBy
     @Binding var contain: Bool
     @Binding var minRating: Double
@@ -25,11 +25,11 @@ struct FiltersSheetView: View {
     var body: some View {
         NavigationStack {
             Form {
-                
                 Section {
                     Picker("Selecciona tipo", selection: $selectedBy) {
                         ForEach(searchBy) { by in
                             Text(by.rawValue)
+                                .tag(by)
                         }
                     }
                     .pickerStyle(.menu)
@@ -37,40 +37,88 @@ struct FiltersSheetView: View {
                     Text("Buscar por")
                 }
                 
-                
-                if selectedBy != SearchBy.beginsWith && selectedBy != SearchBy.contains && selectedBy != SearchBy.idManga{
+                if selectedBy != .beginsWith && selectedBy != .contains && selectedBy != .idManga {
                     Section {
-                        Picker("Selecciona un género", selection: $selectedGenre) {
+                        Menu {
                             ForEach(genres) { genre in
-                                Text(genre.rawValue)
+                                Button {
+                                    toggleSelection(item: genre, in: &selectedGenre,allValue: .all)
+                                } label: {
+                                    HStack {
+                                        Text(genre.rawValue)
+                                        Spacer()
+                                        if selectedGenre.contains(genre) {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("Selecciona Géneros")
+                                Spacer()
+                                Text(selectedGenre.map { $0.rawValue }.joined(separator: ", "))
+                                    .foregroundColor(.gray)
+                                    .lineLimit(1)
                             }
                         }
-                        .pickerStyle(.menu)
-                    } header: {
-                        Text("Género")
+                    } header:{
+                        Text("Géneros")
                     }
                     
-                    
                     Section {
-                        Picker("Selecciona un tema", selection: $selectedTheme) {
+                        Menu {
                             ForEach(themes) { theme in
-                                Text(theme.rawValue)
+                                Button {
+                                    toggleSelection(item: theme, in: &selectedTheme, allValue: .all)
+                                } label: {
+                                    HStack {
+                                        Text(theme.rawValue)
+                                        Spacer()
+                                        if selectedTheme.contains(theme) {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("Selecciona Temas")
+                                Spacer()
+                                Text(selectedTheme.map { $0.rawValue }.joined(separator: ", "))
+                                    .foregroundColor(.gray)
+                                    .lineLimit(1)
                             }
                         }
-                        .pickerStyle(.menu)
-                    } header: {
-                        Text("Tema")
+                    } header:{
+                        Text("Temas")
                     }
                     
-                    
                     Section {
-                        Picker("Selecciona una demografía", selection: $selectedDemographic) {
+                        Menu {
                             ForEach(demographics) { demographic in
-                                Text(demographic.rawValue)
+                                Button {
+                                    toggleSelection(item: demographic, in: &selectedDemographic, allValue: .all)
+                                } label: {
+                                    HStack {
+                                        Text(demographic.rawValue)
+                                        Spacer()
+                                        if selectedDemographic.contains(demographic) {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("Selecciona Demografía")
+                                Spacer()
+                                Text(selectedDemographic.map { $0.rawValue }.joined(separator: ", "))
+                                    .foregroundColor(.gray)
+                                    .lineLimit(1)
                             }
                         }
-                        .pickerStyle(.menu)
-                    } header: {
+                    } header:{
                         Text("Demografía")
                     }
                     
@@ -83,10 +131,9 @@ struct FiltersSheetView: View {
                 
                 Section {
                     Stepper("Puntuación mínima: \(minRating.formatted(withDecimals: 0))", value: $minRating, in: 0...10)
-                } header: {
+                } header:{
                     Text("Puntuación")
                 }
-                
             }
             .navigationTitle("Filtros")
             .toolbar {
@@ -101,7 +148,20 @@ struct FiltersSheetView: View {
                     }
                 }
             }
-            
+        }
+    }
+    
+    private func toggleSelection<T: Equatable>(item: T, in array: inout [T], allValue: T) {
+        if let index = array.firstIndex(of: item) {
+            array.remove(at: index)
+            if array.isEmpty {
+                array.append(allValue)
+            }
+        } else {
+            if let allIndex = array.firstIndex(of: allValue) {
+                array.remove(at: allIndex)
+            }
+            array.append(item)
         }
     }
 }

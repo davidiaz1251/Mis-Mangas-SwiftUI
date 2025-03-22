@@ -33,8 +33,6 @@ final class ImageVM{
             self.image = image
         }catch{
             self.image = UIImage(resource: .no)
-            print("\(url)")
-            print(error)
         }
     }
 }

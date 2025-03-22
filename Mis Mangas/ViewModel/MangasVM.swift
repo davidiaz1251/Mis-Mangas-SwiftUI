@@ -17,9 +17,9 @@ final class MangasVM {
     var showAlert = false
     var errorMsg = ""
     
-    var selectedGenre: GenreModel = .all
-    var selectedTheme: ThemeModel = .all
-    var selectedDemographic: DemographicModel = .all
+    var selectedGenre: [GenreModel] = [.all]
+    var selectedTheme: [ThemeModel] = [.all]
+    var selectedDemographic: [DemographicModel] = [.all]
     var selectedSearchBy: SearchBy = .title
     var selectContain = false
     var minRating: Double = 0
@@ -92,7 +92,6 @@ final class MangasVM {
             let mangasBy = try await network.getMangasBy(prePath: prePath, by: by, page: String(self.page), per: String(self.per))
             self.mangas += mangasBy
         }catch{
-            print("Page", self.page)
             self.errorMsg = error.localizedDescription
             showAlert.toggle()
         }
@@ -119,9 +118,9 @@ final class MangasVM {
     }
     
     func resetFilters() {
-        selectedGenre = .all
-        selectedTheme = .all
-        selectedDemographic = .all
+        selectedGenre = [.all]
+        selectedTheme = [.all]
+        selectedDemographic = [.all]
         selectedSearchBy = .title
         minRating = 0
     }
@@ -138,14 +137,13 @@ final class MangasVM {
             searchTitle: !searchText.isEmpty && selectedSearchBy == .title ? searchText : nil,
             searchAuthorFirstName: !searchText.isEmpty && selectedSearchBy == .firstName ? searchText : nil,
             searchAuthorLastName: !searchText.isEmpty && selectedSearchBy == .lastName ? searchText : nil,
-            searchGenres: selectedGenre != .all ? [selectedGenre.rawValue] : nil,
-            searchThemes: selectedTheme != .all ? [selectedTheme.rawValue] : nil,
-            searchDemographics: selectedDemographic != .all ? [selectedDemographic.rawValue] : nil,
+            searchGenres: selectedGenre.contains(.all) ? nil : selectedGenre.map { $0.rawValue },
+            searchThemes: selectedTheme.contains(.all) ? nil : selectedTheme.map { $0.rawValue },
+            searchDemographics: selectedDemographic.contains(.all) ? nil : selectedDemographic.map { $0.rawValue },
             searchContains: selectContain
         )
         Task{
             await getMangaBy(prePath: prePath, by: endPoint, fetcher: selectedSearchBy, custom: customSearch)
-            print(mangas.count)
         }
     }
     
@@ -172,7 +170,6 @@ final class MangasVM {
         
         do{
             self.characters = try await network.getCharacters(id: "\(id)")
-            print("\(self.characters.count)")
         }catch{
             print(error.localizedDescription)
         }

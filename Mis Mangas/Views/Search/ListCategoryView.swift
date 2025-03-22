@@ -58,7 +58,6 @@ struct ListCategoryView: View {
             return .mangaByTheme(value)
         case .authors:
             if let match = value.firstMatch(of: /(?i)\b(?=[A-Z0-9-]*-[A-Z0-9-]+)[A-Z0-9-]+\b/) {
-                print(match.0)
                 return .mangaByAuthor("\(match.0)")
             }
             return .mangaByAuthor("")

@@ -66,7 +66,8 @@ struct FilterAdvanceView: View {
                 minRating: $vm.minRating,
                 genres: genres,
                 themes: themes,
-                demographics: demographics,                searchBy: searchBy,
+                demographics: demographics,
+                searchBy: searchBy,
                 reset: vm.resetFilters
             )
             .presentationDetents([.large])
